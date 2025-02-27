@@ -36,7 +36,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // JWT 토큰 생성 함수
 const generateToken = (user) => {
-    return jwt.sign(user, process.env.JWT_SECRET, { expiresIn: "1h" });
+    return jwt.sign(user, process.env.JWT_SECRET, { expiresIn: "3h" });
 };
 
 // 구글 로그인 요청 (passport.authenticate 사용)
