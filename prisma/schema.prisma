@@ -1,0 +1,146 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model ACTIVITY {
+  activity_id   BigInt          @id @default(autoincrement())
+  activity_type String          @db.VarChar(10)
+  created_at    DateTime        @default(now()) @db.Timestamp(0)
+  updated_at    DateTime        @default(now()) @db.Timestamp(0)
+  EXHIBITION    EXHIBITION[]
+  MOVIE         MOVIE[]
+  PERFORMANCE   PERFORMANCE[]
+  REVIEW        REVIEW[]
+  USER_ACTIVITY USER_ACTIVITY[]
+  WISH          WISH[]
+}
+
+model EXHIBITION {
+  exhibition_id    BigInt   @id @default(autoincrement())
+  activity_id      BigInt
+  title            String   @db.VarChar(100)
+  image_url        String?  @db.VarChar(2083)
+  exhibition_genre String?  @db.VarChar(10)
+  start_date       DateTime @db.Date
+  end_date         DateTime @db.Date
+  location         String   @db.VarChar(100)
+  created_at       DateTime @default(now()) @db.Timestamp(0)
+  updated_at       DateTime @default(now()) @db.Timestamp(0)
+  ACTIVITY         ACTIVITY @relation(fields: [activity_id], references: [activity_id], onDelete: Cascade, onUpdate: NoAction, map: "exhibition_ibfk_1")
+
+  @@index([activity_id], map: "activity_id")
+}
+
+model MOVIE {
+  movie_id    BigInt   @id @default(autoincrement())
+  activity_id BigInt
+  title       String   @db.VarChar(100)
+  image_url   String?  @db.VarChar(2083)
+  movie_genre Json?
+  time        DateTime @db.Date
+  location    String   @db.VarChar(100)
+  created_at  DateTime @default(now()) @db.Timestamp(0)
+  updated_at  DateTime @default(now()) @db.Timestamp(0)
+  ACTIVITY    ACTIVITY @relation(fields: [activity_id], references: [activity_id], onDelete: Cascade, onUpdate: NoAction, map: "movie_ibfk_1")
+
+  @@index([activity_id], map: "movie_ibfk_1")
+}
+
+model PERFORMANCE {
+  performance_id    BigInt   @id @default(autoincrement())
+  activity_id       BigInt
+  title             String   @db.VarChar(100)
+  image_url         String?  @db.VarChar(2083)
+  performance_genre String?  @db.VarChar(10)
+  start_date        DateTime @db.Date
+  end_date          DateTime @db.Date
+  time              String   @db.VarChar(100)
+  location          String   @db.VarChar(100)
+  created_at        DateTime @default(now()) @db.Timestamp(0)
+  updated_at        DateTime @default(now()) @db.Timestamp(0)
+  ACTIVITY          ACTIVITY @relation(fields: [activity_id], references: [activity_id], onDelete: Cascade, onUpdate: NoAction, map: "PERFORMANCE_ACTIVITY_activity_id_fk")
+
+  @@index([activity_id], map: "PERFORMANCE_ACTIVITY_activity_id_fk")
+}
+
+model PREFERENCE {
+  preference_id                BigInt   @id @default(autoincrement())
+  user_id                      BigInt
+  movie_preference             Int
+  performance_preference       Int
+  exhibition_preference        Int
+  movie_genre_preference       Json?
+  performance_genre_preference Json?
+  exhibition_genre_preference  Json?
+  like_words                   Json
+  created_at                   DateTime @default(now()) @db.Timestamp(0)
+  updated_at                   DateTime @default(now()) @db.Timestamp(0)
+  USER                         USER     @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction, map: "preference_ibfk_1")
+
+  @@index([user_id], map: "user_id")
+}
+
+model REVIEW {
+  review_id   BigInt   @id @default(autoincrement())
+  user_id     BigInt
+  activity_id BigInt
+  rate        Int
+  content     String?  @db.VarChar(500)
+  created_at  DateTime @default(now()) @db.Timestamp(0)
+  updated_at  DateTime @default(now()) @db.Timestamp(0)
+  USER        USER     @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "review_ibfk_1")
+  ACTIVITY    ACTIVITY @relation(fields: [activity_id], references: [activity_id], onDelete: Cascade, onUpdate: NoAction, map: "review_ibfk_2")
+
+  @@index([activity_id], map: "activity_id")
+  @@index([user_id], map: "user_id")
+}
+
+model USER {
+  user_id       BigInt          @id @default(autoincrement())
+  google_id     String          @unique @db.VarChar(255)
+  email         String          @db.VarChar(255)
+  name          String          @db.VarChar(10)
+  age           Int?
+  gender        String?         @db.VarChar(10)
+  status        Int             @default(0)
+  deleted_at    DateTime?       @db.Timestamp(0)
+  created_at    DateTime        @default(now()) @db.Timestamp(0)
+  updated_at    DateTime        @default(now()) @db.Timestamp(0)
+  PREFERENCE    PREFERENCE[]
+  REVIEW        REVIEW[]
+  USER_ACTIVITY USER_ACTIVITY[]
+  WISH          WISH[]
+}
+
+model USER_ACTIVITY {
+  user_activity_id BigInt    @id @default(autoincrement())
+  user_id          BigInt
+  activity_id      BigInt
+  activity_status  Int       @default(0)
+  activity_date    DateTime? @db.DateTime(0)
+  created_at       DateTime  @default(now()) @db.Timestamp(0)
+  updated_at       DateTime  @default(now()) @db.Timestamp(0)
+  USER             USER      @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction, map: "USER_ACTIVITY_USER_user_id_fk")
+  ACTIVITY         ACTIVITY  @relation(fields: [activity_id], references: [activity_id], onDelete: Cascade, onUpdate: NoAction, map: "user_activity_ibfk_1")
+
+  @@index([user_id], map: "USER_ACTIVITY_USER_user_id_fk")
+  @@index([activity_id], map: "user_activity_ibfk_1")
+}
+
+model WISH {
+  wish_id     BigInt   @id @default(autoincrement())
+  user_id     BigInt
+  activity_id BigInt
+  created_at  DateTime @default(now()) @db.Timestamp(0)
+  updated_at  DateTime @default(now()) @db.Timestamp(0)
+  USER        USER     @relation(fields: [user_id], references: [user_id], onDelete: Cascade, onUpdate: NoAction, map: "wish_ibfk_1")
+  ACTIVITY    ACTIVITY @relation(fields: [activity_id], references: [activity_id], onDelete: Cascade, onUpdate: NoAction, map: "wish_ibfk_2")
+
+  @@index([activity_id], map: "activity_id")
+  @@index([user_id], map: "user_id")
+}
