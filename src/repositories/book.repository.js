@@ -145,6 +145,45 @@ export const updateDate = async (userId, id, activityDate) => {
     };
 };
 
+// 여가 상태 변경
+export const updateStatus = async (userId, id) => {
+    const result = await prisma.uSER_ACTIVITY.update({
+        where: {
+            user_activity_id: id,
+            user_id: userId
+        },
+        data: {
+            activity_status:1
+        }
+    });
+
+    // BigInt를 문자열로 변환한 후 반환
+    return {
+        ...result,
+        user_activity_id: result.user_activity_id.toString(),
+        user_id: result.user_id.toString(),
+        activity_id: result.activity_id.toString(),
+    };
+}
+
+// 여가 예약 취소
+export const deleteUserActivity = async (userId, id) => {
+    const result = await prisma.uSER_ACTIVITY.delete({
+        where: {
+            user_activity_id: id,
+            user_id: userId
+        }
+    });
+
+    // BigInt를 문자열로 변환한 후 반환
+    return {
+        ...result,
+        user_activity_id: result.user_activity_id.toString(),
+        user_id: result.user_id.toString(),
+        activity_id: result.activity_id.toString(),
+    };
+}
+
 
 // // 여가 상세 조회
 // export const getActivity = async(activityId) => {

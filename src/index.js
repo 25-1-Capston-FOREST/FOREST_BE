@@ -10,7 +10,7 @@ import axios from "axios";
 import cookieParser from "cookie-parser";  // cookie-parser 추가
 import { googleStrategy } from "./auth.config.js";
 import authenticateJWT from "./jwtMiddleware.js";
-import { handleAddBook, handleGetUserActivity, handleModifyDate } from "./controllers/book.controller.js";
+import { handleAddBook, handleGetUserActivity, handleModifyDate, handleFinishActivity, handleCancelBook} from "./controllers/book.controller.js";
 
 dotenv.config();
 
@@ -93,8 +93,8 @@ app.post("/logout", (req, res) => {
 app.post('/api/book', authenticateJWT, handleAddBook);
 app.get('/api/user/activities', authenticateJWT, handleGetUserActivity);
 app.patch('/api/book', authenticateJWT, handleModifyDate);
-// app.patch('/api/user/activity', authenticateJWT, handleFinishActivity);
-// app.delete('/api/user/activity', authenticateJWT, handleDeleteActivity);
+app.patch('/api/user/activity', authenticateJWT, handleFinishActivity);
+app.delete('/api/book', authenticateJWT, handleCancelBook);
 
 // 비인증 API
 app.get('/public', (req, res) => {

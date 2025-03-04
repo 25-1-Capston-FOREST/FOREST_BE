@@ -173,6 +173,16 @@ paths:
                         format: date-time
                         example: "2025-03-05T01:43:13.000Z"
         "400":
+          description: 잘못된 요청 (id 값이 없음)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "id값이 쿼리에 필요합니다"
+        "401":
           description: 잘못된 요청 (activityDate 값이 없음)
           content:
             application/json:
@@ -182,6 +192,84 @@ paths:
                   message:
                     type: string
                     example: "수정할 date값이 필요합니다"
+        "409":
+          description: 인증 실패
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "사용자 인증 실패"
+    delete:
+      summary: 여가 예약 취소
+      description: 특정 사용자의 여가 예약을 취소합니다.
+      tags:
+        - User Activity
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: query
+          required: true
+          description: 취소할 `user_activity_id`
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 여가 예약이 성공적으로 취소됨
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "여가 예약이 성공적으로 취소되었습니다."
+                  data:
+                    type: object
+                    properties:
+                      user_activity_id:
+                        type: string
+                        example: "16"
+                      user_id:
+                        type: string
+                        example: "1"
+                      activity_id:
+                        type: string
+                        example: "2"
+                      activity_status:
+                        type: integer
+                        example: 1
+                      activity_date:
+                        type: string
+                        format: date-time
+                        example: "2025-03-06T10:00:00.000Z"
+                      created_at:
+                        type: string
+                        format: date-time
+                        example: "2025-03-05T01:04:41.000Z"
+                      updated_at:
+                        type: string
+                        format: date-time
+                        example: "2025-03-05T02:13:02.000Z"
+        "400":
+          description: 잘못된 요청 (id 값이 없음)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "id가 쿼리에 필요합니다."
         "401":
           description: 인증 실패
           content:
@@ -329,4 +417,83 @@ paths:
                   message:
                     type: string
                     example: "서버 내부 오류"
+  /api/user/activity:
+    patch:
+      summary: 여가 완료 처리
+      description: 특정 사용자의 여가 상태를 '완료'로 변경합니다.
+      tags:
+        - User Activity
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: query
+          required: true
+          description: 완료 처리할 `user_activity_id`
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 여가가 성공적으로 완료 처리됨
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "여가가 성공적으로 완료 처리되었습니다."
+                  data:
+                    type: object
+                    properties:
+                      user_activity_id:
+                        type: string
+                        example: "16"
+                      user_id:
+                        type: string
+                        example: "1"
+                      activity_id:
+                        type: string
+                        example: "2"
+                      activity_status:
+                        type: integer
+                        example: 1
+                      activity_date:
+                        type: string
+                        format: date-time
+                        example: "2025-03-06T10:00:00.000Z"
+                      created_at:
+                        type: string
+                        format: date-time
+                        example: "2025-03-05T01:04:41.000Z"
+                      updated_at:
+                        type: string
+                        format: date-time
+                        example: "2025-03-05T02:08:08.000Z"
+        "400":
+          description: 잘못된 요청 (id 값이 없음)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "id가 쿼리에 필요합니다."
+        "401":
+          description: 인증 실패
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "사용자 인증 실패"
     
