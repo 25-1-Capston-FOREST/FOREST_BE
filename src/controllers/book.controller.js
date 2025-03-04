@@ -1,5 +1,5 @@
 import { StatusCodes } from "http-status-codes";
-import { addBook } from "../services/book.service.js";
+import { addBook, getUserActivity } from "../services/book.service.js";
 
 export const handleAddBook = async (req,res,next) => {
     try{
@@ -19,12 +19,38 @@ export const handleAddBook = async (req,res,next) => {
 
         const result = await addBook(userId, activityId, activityDate);
         if(!result){
-            throw new error();
+            throw new Error();
         }
         
         res.status(StatusCodes.OK).json({ success: true, message: "예약이 성공적으로 추가되었습니다.", data: result });
     }catch(error){
         console.log("예약 추가 오류", error.message);
         next(error);
+    }
+};
+
+// 쿼리(status:0/1)에 맞는 여가 조회
+export const handleGetUserActivity = async (req,res,next) => {
+    try{
+        const userId = req.user.id;
+        const { status } = req.query;
+
+        if(!userId){
+            return res.status(StatusCodes.UNAUTHORIZED).json({success: false, message: "사용자 인증 실패"});
+        }
+        if(!status){
+            return res.status(400).json({message: "status가 필요합니다"});
+        }
+
+        const result = await getUserActivity(userId, status);
+        if(!result){
+            throw new Error();
+        }
+
+        res.status(StatusCodes.OK).json({ success: true, message: "사용자 여가 목록이 성공적으로 조회되었습니다.", data: result });
+    }catch(error){
+        console.log("예약 목록 조회 오류", error.message);
+        next(error);
+
     }
 };

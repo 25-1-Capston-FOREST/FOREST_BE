@@ -12,6 +12,10 @@ paths:
       summary: 여가 예약 추가
       description: 사용자가 여가 예약을 추가할 수 있는 API입니다. 동일한 예약이 이미 존재하는 경우 중복 오류를 반환합니다.
       operationId: handleAddBook
+      tags:
+        - User Activity
+      security:
+        - bearerAuth: [] # 이 경로는 인증이 필요함
       requestBody:
         description: 여가 예약 정보를 담은 JSON 객체
         required: true
@@ -101,3 +105,137 @@ paths:
                   message:
                     type: string
                     example: "예약 추가 오류"
+  /api/users/activities:
+    get:
+      summary: 사용자 여가 목록 조회
+      description: 사용자의 특정 상태(status)에 해당하는 여가 활동 목록을 조회합니다.
+      tags:
+        - User Activity
+      security:
+        - bearerAuth: [] # 이 경로는 인증이 필요함
+      parameters:
+        - name: status
+          in: query
+          required: true
+          description: 여가 상태 (0: 진행 중, 1: 완료됨)
+          schema:
+            type: integer
+            enum: [0, 1]
+      responses:
+        "200":
+          description: 성공적으로 여가 목록을 조회한 경우
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "사용자 여가 목록이 성공적으로 조회되었습니다."
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        activity_id:
+                          type: string
+                          description: 여가 활동 ID
+                          example: "1"
+                        activity_type:
+                          type: string
+                          description: 여가 활동 유형 (예: 영화, 공연, 전시)
+                          example: "movie"
+                        activity_date:
+                          type: string
+                          format: date-time
+                          description: 여가 활동 날짜
+                          example: "2025-03-05T09:00:00.000Z"
+                        detailedInfo:
+                          type: object
+                          description: 여가 활동 상세 정보
+                          properties:
+                            movie_id:
+                              type: string
+                              description: 영화 ID
+                              example: "1"
+                            activity_id:
+                              type: string
+                              description: 활동 ID
+                              example: "1"
+                            title:
+                              type: string
+                              description: 영화 제목
+                              example: "testMovie1"
+                            image_url:
+                              type: string
+                              nullable: true
+                              description: 이미지 URL (없을 수도 있음)
+                              example: null
+                            movie_genre:
+                              type: array
+                              items:
+                                type: string
+                              description: 영화 장르 목록
+                              example: ["genre1", "genre2"]
+                            time:
+                              type: string
+                              format: date-time
+                              description: 영화 시작 시간
+                              example: "2025-03-04T19:30:00.000Z"
+                            location:
+                              type: string
+                              description: 영화 상영 장소
+                              example: "test"
+                            created_at:
+                              type: string
+                              format: date-time
+                              description: 생성 시간
+                              example: "2025-03-04T14:50:22.000Z"
+                            updated_at:
+                              type: string
+                              format: date-time
+                              description: 수정 시간
+                              example: "2025-03-04T14:50:22.000Z"
+                        isWished:
+                          type: boolean
+                          description: 사용자가 해당 활동을 찜했는지 여부
+                          example: false
+        "400":
+          description: status 값이 제공되지 않은 경우
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "status가 필요합니다"
+        "401":
+          description: 인증되지 않은 사용자
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "사용자 인증 실패"
+        "500":
+          description: 서버 오류 발생
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "서버 내부 오류"
