@@ -1,6 +1,7 @@
 import { StatusCodes } from "http-status-codes";
-import { addBook, getUserActivity } from "../services/book.service.js";
+import { addBook, getUserActivity, modifyDate } from "../services/book.service.js";
 
+// 여가 예약 추가
 export const handleAddBook = async (req,res,next) => {
     try{
         const userId = req.user.id;
@@ -54,3 +55,28 @@ export const handleGetUserActivity = async (req,res,next) => {
 
     }
 };
+
+// 여가 예약 날짜 수정
+export const handleModifyDate = async(req,res,next) => {
+    try{
+        const userId = req.user.id;
+        const { id } = req.query;
+        const { activityDate } = req.body;
+
+        if(!userId){
+            return res.status(StatusCodes.UNAUTHORIZED).json({success: false, message: "사용자 인증 실패"});
+        }
+        if(!activityDate){
+            return res.status(400).json({message: "수정할 date값이 필요합니다"});
+        }
+        const result = await modifyDate(userId, id, activityDate);
+        if(!result){
+            throw new Error();
+        }
+
+        res.status(StatusCodes.OK).json({ success: true, message: "여가 예약 날짜가 성공적으로 변경되었습니다.", data: result });
+    }catch(error){
+        console.log("예약 날짜 변경 오류", error.message);
+        next(error);
+    }
+}

@@ -47,7 +47,7 @@ export const listUserActivity = async (userId, status) => {
                 { activity_status: Number(status) },
             ]
         },
-        select: { activity_id: true, activity_date: true }  // activity_id와 activity_date 가져옴
+        select: { user_activity_id: true, activity_id: true, activity_date: true }
     });
 
     // 여러 개의 activity_id를 배열로 변환
@@ -106,8 +106,10 @@ export const listUserActivity = async (userId, status) => {
             }
 
             const activityDate = activities.find(a => a.activity_id === activity_id)?.activity_date || null;
+            const userActivityId = activities.find(a => a.activity_id === activity_id)?.user_activity_id || null;
 
             return { 
+                user_activity_id: userActivityId.toString(),
                 activity_id: activity_id.toString(),  // BigInt를 문자열로 변환
                 activity_type, 
                 activity_date: activityDate,
@@ -120,7 +122,28 @@ export const listUserActivity = async (userId, status) => {
     return result;  // 수정된 데이터 배열을 반환
 }
 
+// 여가 날짜 변경
+export const updateDate = async (userId, id, activityDate) => {
+    const date = new Date(activityDate);  // 예약 날짜를 Date 객체로 변환
+    const isoActivityDate = date.toISOString();  // ISO 8601 형식으로 변환
+    const result = await prisma.uSER_ACTIVITY.update({
+        where: { 
+            user_activity_id: id,
+            user_id: userId
+        },
+        data: { // 업데이트할 데이터는 data 객체 안에 넣어야 함
+            activity_date: isoActivityDate
+        }
+    });
 
+    // BigInt를 문자열로 변환한 후 반환
+    return {
+        ...result,
+        user_activity_id: result.user_activity_id.toString(),
+        user_id: result.user_id.toString(),
+        activity_id: result.activity_id.toString(),
+    };
+};
 
 
 // // 여가 상세 조회
