@@ -10,6 +10,7 @@ import axios from "axios";
 import cookieParser from "cookie-parser";  // cookie-parser 추가
 import { googleStrategy } from "./auth.config.js";
 import authenticateJWT from "./jwtMiddleware.js";
+import { handleAddBook } from "./controllers/book.controller.js";
 
 dotenv.config();
 
@@ -32,7 +33,7 @@ app.use(cookieParser());  // 쿠키 파서 추가
 app.use(passport.initialize());  // 세션 관련 설정 삭제
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // JWT 토큰 생성 함수
 const generateToken = (user) => {
@@ -50,12 +51,14 @@ app.post("/auth/google", passport.authenticate('google', {
     user.user_id = user.user_id.toString();  // BigInt를 문자열로 변환
     const token = generateToken({ id: user.user_id, email: user.email });
 
-    // JWT를 HttpOnly 쿠키로 클라이언트에 저장
+    // JWT를 쿠키로 클라이언트에 저장
     res.cookie("jwt", token, {
-        httpOnly: true,  // 클라이언트에서 접근할 수 없도록 설정
-        secure: process.env.NODE_ENV === "production", // 프로덕션 환경에서만 https 사용
+        httpOnly: false,  // 클라이언트에서 접근가능
+        secure: false, 
         maxAge: 3600000, // 1시간 동안 유효
     });
+    console.log("토큰: "+token);
+
     console.log("쿠키 저장 완료");
 
     res.json({ message: "로그인 성공", user });
@@ -77,18 +80,19 @@ app.get("/user", (req, res) => {
 
 // 로그아웃 (JWT 쿠키 삭제)
 app.post("/logout", (req, res) => {
+    console.log("로그아웃 요청 받음");
     res.clearCookie("jwt");  // JWT 쿠키 삭제
+    res.clearCookie("G_AUTHUSER_H"); // 구글 인증 관련 쿠키 예시 (구글 OAuth 쿠키)
+    res.clearCookie("G_AUTH") // 구글 인증 관련 다른 쿠키들
     res.json({ message: "로그아웃 성공" });
+    console.log("쿠키 삭제 완료");
 });
 
-// 인증이 필요한 API 예시
-app.get('/protected', authenticateJWT, (req, res) => {
-    // 인증된 사용자만 접근 가능
-    res.json({ message: "This is a protected API" });
 
-  });
+// 인증이 필요한 API
+app.post('/api/book', authenticateJWT, handleAddBook);
 
-// 비인증 API 예시
+// 비인증 API
 app.get('/public', (req, res) => {
     res.json({ message: "This is a public API" });
   });

@@ -1,10 +1,103 @@
 openapi: 3.0.0
 info:
-    title: FOREST API
-    description: FOREST API Server Document
-    version: 1.0.0
+  title: FOREST API
+  description: FOREST API 서버 문서
+  version: 1.0.0
 servers:
-    - url: http://localhost:3001
-      description: Local server
+  - url: http://localhost:3001
+    description: 로컬 서버
 paths:
-    /home/
+  /api/book:
+    post:
+      summary: 여가 예약 추가
+      description: 사용자가 여가 예약을 추가할 수 있는 API입니다. 동일한 예약이 이미 존재하는 경우 중복 오류를 반환합니다.
+      operationId: handleAddBook
+      requestBody:
+        description: 여가 예약 정보를 담은 JSON 객체
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                activityDate:
+                  type: string
+                  description: 예약할 날짜 (ISO 8601 형식)
+                  example: "2025-03-05 00:00:00"
+      parameters:
+        - in: query
+          name: activityId
+          description: 예약할 활동의 ID
+          required: true
+          schema:
+            type: string
+            example: "1"
+      responses:
+        200:
+          description: 예약이 성공적으로 추가된 경우
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "예약이 성공적으로 추가되었습니다."
+                  data:
+                    type: object
+                    properties:
+                      user_activity_id:
+                        type: string
+                        example: "1"
+                      user_id:
+                        type: string
+                        example: "1"
+                      activity_id:
+                        type: string
+                        example: "1"
+        400:
+          description: 유효하지 않은 입력값
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "activityId가 필요합니다"
+        401:
+          description: 인증 실패
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "사용자 인증 실패"
+        409:
+          description: 중복 예약 오류
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "이미 해당 예약이 존재합니다."
+        500:
+          description: 서버 오류
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "예약 추가 오류"

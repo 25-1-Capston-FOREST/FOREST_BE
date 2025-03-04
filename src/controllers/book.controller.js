@@ -1,0 +1,30 @@
+import { StatusCodes } from "http-status-codes";
+import { addBook } from "../services/book.service.js";
+
+export const handleAddBook = async (req,res,next) => {
+    try{
+        const userId = req.user.id;
+        const { activityId } = req.query;
+        const { activityDate } = req.body;
+
+        if(!userId){
+            return res.status(StatusCodes.UNAUTHORIZED).json({success: false, message: "사용자 인증 실패"});
+        }
+        if(!activityId){
+            return res.status(400).json({message: "acticityId가 필요합니다"});
+        }
+        if(!activityDate){
+            return res.status(401).json({message: "activityDate가 필요합니다"});
+        }
+
+        const result = await addBook(userId, activityId, activityDate);
+        if(!result){
+            throw new error();
+        }
+        
+        res.status(StatusCodes.OK).json({ success: true, message: "예약이 성공적으로 추가되었습니다.", data: result });
+    }catch(error){
+        console.log("예약 추가 오류", error.message);
+        next(error);
+    }
+};
