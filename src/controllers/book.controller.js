@@ -5,7 +5,7 @@ import { addBook, getUserActivity, modifyDate, finishActivity, cancelActivity } 
 export const handleAddBook = async (req,res,next) => {
     try{
         const userId = req.user.id;
-        const { activityId } = req.query;
+        const { id } = req.query; // id = activity_id
         const { activityDate } = req.body;
 
         if(!userId){
@@ -18,7 +18,7 @@ export const handleAddBook = async (req,res,next) => {
             return res.status(401).json({message: "activityDate가 필요합니다"});
         }
 
-        const result = await addBook(userId, activityId, activityDate);
+        const result = await addBook(userId, id, activityDate);
         if(!result){
             throw new Error();
         }
@@ -34,7 +34,7 @@ export const handleAddBook = async (req,res,next) => {
 export const handleGetUserActivity = async (req,res,next) => {
     try{
         const userId = req.user.id;
-        const { status } = req.query;
+        const { status } = req.query; // status = 0 or 1
 
         if(!userId){
             return res.status(StatusCodes.UNAUTHORIZED).json({success: false, message: "사용자 인증 실패"});
@@ -60,7 +60,7 @@ export const handleGetUserActivity = async (req,res,next) => {
 export const handleModifyDate = async(req,res,next) => {
     try{
         const userId = req.user.id;
-        const { id } = req.query;
+        const { id } = req.query; // id = user_activity_id
         const { activityDate } = req.body;
 
         if(!userId){
@@ -72,7 +72,7 @@ export const handleModifyDate = async(req,res,next) => {
         if(!activityDate){
             return res.status(401).json({message: "수정할 date값이 필요합니다"});
         }
-        const result = await modifyDate(userId, id, activityDate);
+        const result = await modifyDate(id, activityDate);
         if(!result){
             throw new Error();
         }
@@ -97,7 +97,7 @@ export const handleFinishActivity = async(req,res,next) => {
             return res.status(400).json({message: "id가 쿼리에 필요합니다."});
         }
 
-        const result = await finishActivity(userId, id);
+        const result = await finishActivity(id);
         if(!result){
             throw new Error();
         }
@@ -122,7 +122,7 @@ export const handleCancelBook = async(req,res,next) => {
             return res.status(400).json({message: "id가 쿼리에 필요합니다."});
         }
 
-        const result = await cancelActivity(userId, id);
+        const result = await cancelActivity(id);
         if(!result){
             throw new Error();
         }

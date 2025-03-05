@@ -8,14 +8,14 @@ export const getUserActivity = async (userId, status) => {
     return await listUserActivity(userId, status);
 }
 
-export const modifyDate = async (userId, id, activityDate) => {
-    return await updateDate(userId, id, activityDate);
+export const modifyDate = async (id, activityDate) => {
+    return await updateDate(id, activityDate);
 }
 
-export const finishActivity = async (userId, id) => {
-    return await updateStatus(userId, id);
+export const finishActivity = async (id) => {
+    return await updateStatus(id);
 }
 
-export const cancelActivity = async (userId, id) => {
-    return await deleteUserActivity(userId, id);
+export const cancelActivity = async (id) => {
+    return await deleteUserActivity(id);
 }

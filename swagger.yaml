@@ -30,8 +30,8 @@ paths:
                   example: "2025-03-05 00:00:00"
       parameters:
         - in: query
-          name: activityId
-          description: 예약할 활동의 ID
+          name: id
+          description: 예약할 활동의 id (activity_id)
           required: true
           schema:
             type: string
@@ -116,7 +116,7 @@ paths:
         - name: id
           in: query
           required: true
-          description: 수정할 `user_activity_id`
+          description: 수정할 예약의 id (user_activity_id)
           schema:
             type: string
       requestBody:
@@ -216,7 +216,7 @@ paths:
         - name: id
           in: query
           required: true
-          description: 취소할 `user_activity_id`
+          description: 취소할 예약의 id (user_activity_id)
           schema:
             type: string
       responses:
@@ -295,7 +295,7 @@ paths:
         - name: status
           in: query
           required: true
-          description: 여가 상태 (0: 진행 중, 1: 완료됨)
+          description: 여가 상태 (0 예약, 1 완료됨)
           schema:
             type: integer
             enum: [0, 1]
@@ -429,7 +429,7 @@ paths:
         - name: id
           in: query
           required: true
-          description: 완료 처리할 `user_activity_id`
+          description: 완료 처리할 예약의 id (user_activity_id)
           schema:
             type: string
       responses:
@@ -508,7 +508,7 @@ paths:
         - name: id
           in: query
           required: true
-          description: 찜할 `activity_id`
+          description: 찜할 활동의 id (activity_id)
           schema:
             type: string
       responses:
@@ -578,4 +578,85 @@ paths:
                   message:
                     type: string
                     example: "이미 찜하기 된 예약입니다."
+    delete:
+      summary: 여가 찜 삭제
+      description: 사용자가 찜한 여가를 찜 목록에서 삭제합니다.
+      tags:
+        - WishList
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: query
+          required: true
+          description: 삭제할 찜의 id (wish_id)
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 여가가 성공적으로 찜 목록에서 삭제됨
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "여가를 성공적으로 찜 목록에서 삭제했습니다."
+                  data:
+                    type: object
+                    properties:
+                      wish_id:
+                        type: string
+                        example: "9"
+                      user_id:
+                        type: string
+                        example: "1"
+                      activity_id:
+                        type: string
+                        example: "3"
+                      created_at:
+                        type: string
+                        format: date-time
+                        example: "2025-03-05T10:20:41.000Z"
+                      updated_at:
+                        type: string
+                        format: date-time
+                        example: "2025-03-05T10:20:41.000Z"
+        "400":
+          description: 잘못된 요청 (id 값이 없음)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "id가 쿼리에 필요합니다."
+        "401":
+          description: 인증 실패
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "사용자 인증 실패"
+        "404":
+          description: 찜 목록에 없는 여가
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "해당 여가가 찜 목록에 없습니다."
     

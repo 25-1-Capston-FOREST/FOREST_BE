@@ -65,7 +65,7 @@ export const listUserActivity = async (userId, status) => {
             user_id: userId,
             activity_id: { in: activityIds }
         },
-        select: { activity_id: true }
+        select: { wish_id: true, activity_id: true }
     });
 
     // wish 목록을 빠르게 검색할 수 있도록 Set으로 변환
@@ -105,6 +105,7 @@ export const listUserActivity = async (userId, status) => {
                 }
             }
 
+            const wishId = wishedActivities.find(w => w.activity_id === activity_id)?.wish_id || null;
             const activityDate = activities.find(a => a.activity_id === activity_id)?.activity_date || null;
             const userActivityId = activities.find(a => a.activity_id === activity_id)?.user_activity_id || null;
 
@@ -114,7 +115,8 @@ export const listUserActivity = async (userId, status) => {
                 activity_type, 
                 activity_date: activityDate,
                 detailedInfo, 
-                isWished: wishedActivitySet.has(activity_id) // wish 여부 확인
+                isWished: wishedActivitySet.has(activity_id), // wish 여부 확인
+                wish_id: wishId.toString()
             };
         })
     );
@@ -123,13 +125,12 @@ export const listUserActivity = async (userId, status) => {
 }
 
 // 여가 날짜 변경
-export const updateDate = async (userId, id, activityDate) => {
+export const updateDate = async (id, activityDate) => {
     const date = new Date(activityDate);  // 예약 날짜를 Date 객체로 변환
     const isoActivityDate = date.toISOString();  // ISO 8601 형식으로 변환
     const result = await prisma.uSER_ACTIVITY.update({
         where: { 
             user_activity_id: id,
-            user_id: userId
         },
         data: { // 업데이트할 데이터는 data 객체 안에 넣어야 함
             activity_date: isoActivityDate
@@ -146,11 +147,10 @@ export const updateDate = async (userId, id, activityDate) => {
 };
 
 // 여가 상태 변경
-export const updateStatus = async (userId, id) => {
+export const updateStatus = async (id) => {
     const result = await prisma.uSER_ACTIVITY.update({
         where: {
             user_activity_id: id,
-            user_id: userId
         },
         data: {
             activity_status:1
@@ -167,11 +167,10 @@ export const updateStatus = async (userId, id) => {
 }
 
 // 여가 예약 취소
-export const deleteUserActivity = async (userId, id) => {
+export const deleteUserActivity = async (id) => {
     const result = await prisma.uSER_ACTIVITY.delete({
         where: {
             user_activity_id: id,
-            user_id: userId
         }
     });
 

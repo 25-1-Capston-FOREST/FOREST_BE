@@ -12,7 +12,7 @@ import { googleStrategy } from "./auth.config.js";
 import authenticateJWT from "./jwtMiddleware.js";
 
 import { handleAddBook, handleGetUserActivity, handleModifyDate, handleFinishActivity, handleCancelBook} from "./controllers/book.controller.js";
-import { handleAddWish } from "./controllers/wish.controller.js";
+import { handleAddWish, handleDeleteWish } from "./controllers/wish.controller.js";
 
 dotenv.config();
 
@@ -98,6 +98,7 @@ app.delete('/api/book', authenticateJWT, handleCancelBook);
 app.get('/api/user/activities', authenticateJWT, handleGetUserActivity);
 app.patch('/api/user/activity', authenticateJWT, handleFinishActivity);
 app.post('/api/wish', authenticateJWT, handleAddWish);
+app.delete('/api/wish', authenticateJWT, handleDeleteWish);
 
 // 비인증 API
 app.get('/public', (req, res) => {
