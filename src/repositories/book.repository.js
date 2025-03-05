@@ -183,30 +183,3 @@ export const deleteUserActivity = async (userId, id) => {
         activity_id: result.activity_id.toString(),
     };
 }
-
-
-// // 여가 상세 조회
-// export const getActivity = async(activityId) => {
-//     // activityId로 type 조회
-//     const type = await prisma.aCTIVITY.findUnique({
-//         where: { activity_id: BigInt(activityId) },
-//         select: { activity_type: true },
-//     });
-
-//     // 해당 type 테이블에서 activity 조회
-//     if(type=="movie"){
-//         return await prisma.mOVIE.findUnique({
-//             where: { activity_id: BigInt(activityId) }
-//         });
-//     }else if(type=="performance"){
-//         return await prisma.pERFORMANCE.findUnique({
-//             where: { activity_id: BigInt(activityId) }
-//         });
-//     }else if(type=="exhibition"){
-//         return await prisma.eXHIBITION.findUnique({
-//             where: { activity_id: BigInt(activityId) }
-//         })
-//     }else{
-//         throw new Error("적절하지 않은 type입니다.");
-//     }
-// }

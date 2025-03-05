@@ -10,7 +10,9 @@ import axios from "axios";
 import cookieParser from "cookie-parser";  // cookie-parser 추가
 import { googleStrategy } from "./auth.config.js";
 import authenticateJWT from "./jwtMiddleware.js";
+
 import { handleAddBook, handleGetUserActivity, handleModifyDate, handleFinishActivity, handleCancelBook} from "./controllers/book.controller.js";
+import { handleAddWish } from "./controllers/wish.controller.js";
 
 dotenv.config();
 
@@ -91,10 +93,11 @@ app.post("/logout", (req, res) => {
 
 // 인증이 필요한 API
 app.post('/api/book', authenticateJWT, handleAddBook);
-app.get('/api/user/activities', authenticateJWT, handleGetUserActivity);
 app.patch('/api/book', authenticateJWT, handleModifyDate);
-app.patch('/api/user/activity', authenticateJWT, handleFinishActivity);
 app.delete('/api/book', authenticateJWT, handleCancelBook);
+app.get('/api/user/activities', authenticateJWT, handleGetUserActivity);
+app.patch('/api/user/activity', authenticateJWT, handleFinishActivity);
+app.post('/api/wish', authenticateJWT, handleAddWish);
 
 // 비인증 API
 app.get('/public', (req, res) => {

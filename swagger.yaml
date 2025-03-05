@@ -496,4 +496,86 @@ paths:
                   message:
                     type: string
                     example: "사용자 인증 실패"
+  /api/wish:
+    post:
+      summary: 여가 찜하기
+      description: 특정 사용자의 찜 목록에 여가를 추가합니다.
+      tags:
+        - WishList
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: query
+          required: true
+          description: 찜할 `activity_id`
+          schema:
+            type: string
+      responses:
+        "200":
+          description: 여가가 성공적으로 찜됨
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "여가를 성공적으로 찜했습니다."
+                  data:
+                    type: object
+                    properties:
+                      wish_id:
+                        type: string
+                        example: "4"
+                      user_id:
+                        type: string
+                        example: "1"
+                      activity_id:
+                        type: string
+                        example: "2"
+                      created_at:
+                        type: string
+                        format: date-time
+                        example: "2025-03-05T09:31:43.000Z"
+                      updated_at:
+                        type: string
+                        format: date-time
+                        example: "2025-03-05T09:31:43.000Z"
+        "400":
+          description: 잘못된 요청 (id 값이 없음)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "id가 쿼리에 필요합니다."
+        "401":
+          description: 인증 실패
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "사용자 인증 실패"
+        "409":
+          description: 이미 찜한 여가
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "이미 찜하기 된 예약입니다."
     

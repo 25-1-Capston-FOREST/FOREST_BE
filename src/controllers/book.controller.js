@@ -86,33 +86,50 @@ export const handleModifyDate = async(req,res,next) => {
 
 // 여가 완료 처리
 export const handleFinishActivity = async(req,res,next) => {
-    const userId = req.user.id;
-    const { id } = req.query;
+    try{
+        const userId = req.user.id;
+        const { id } = req.query;
 
-    if(!userId){
-        return res.status(StatusCodes.UNAUTHORIZED).json({success: false, message: "사용자 인증 실패"});
+        if(!userId){
+            return res.status(StatusCodes.UNAUTHORIZED).json({success: false, message: "사용자 인증 실패"});
+        }
+        if(!id){
+            return res.status(400).json({message: "id가 쿼리에 필요합니다."});
+        }
+
+        const result = await finishActivity(userId, id);
+        if(!result){
+            throw new Error();
+        }
+        res.status(StatusCodes.OK).json({ success: true, message: "여가가 성공적으로 완료 처리되었습니다.", data: result});
+    }catch(error){
+        console.log("여가 완료 처리 오류",error.message);
+        next(error);
     }
-    if(!id){
-        return res.status(400).json({message: "id가 쿼리에 필요합니다."});
-    }
-
-    const result = await finishActivity(userId, id);
-    res.status(StatusCodes.OK).json({ success: true, message: "여가가 성공적으로 완료 처리되었습니다.", data: result});
-
+    
 }
 
 // 여가 예약 취소
 export const handleCancelBook = async(req,res,next) => {
-    const userId = req.user.id;
-    const { id } = req.query;
+    try{
+        const userId = req.user.id;
+        const { id } = req.query;
 
-    if(!userId){
-        return res.status(StatusCodes.UNAUTHORIZED).json({success: false, message: "사용자 인증 실패"});
-    }
-    if(!id){
-        return res.status(400).json({message: "id가 쿼리에 필요합니다."});
-    }
+        if(!userId){
+            return res.status(StatusCodes.UNAUTHORIZED).json({success: false, message: "사용자 인증 실패"});
+        }
+        if(!id){
+            return res.status(400).json({message: "id가 쿼리에 필요합니다."});
+        }
 
-    const result = await cancelActivity(userId, id);
-    res.status(StatusCodes.OK).json({ success: true, message: "여가 예약이 성공적으로 취소되었습니다.", data: result});
+        const result = await cancelActivity(userId, id);
+        if(!result){
+            throw new Error();
+        }
+        res.status(StatusCodes.OK).json({ success: true, message: "여가 예약이 성공적으로 취소되었습니다.", data: result});
+    }catch(error){
+        console.log("여가 예약 취소 오류", error.message);
+        next(error);
+    }
+    
 }
