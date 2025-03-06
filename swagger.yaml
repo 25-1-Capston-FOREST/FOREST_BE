@@ -844,3 +844,115 @@ paths:
                   message:
                     type: string
                     example: "서버 오류 발생"
+  /api/review:
+    post:
+      summary: 리뷰 작성
+      description: 특정 활동(activity)에 대한 리뷰를 작성합니다.
+      tags:
+        - Review
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: id
+          in: query
+          required: true
+          description: 사용자 활동 ID (`user_activity_id`)
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rate:
+                  type: number
+                  example: 4.5
+                  description: 리뷰 평점 (0.0 ~ 5.0)
+                content:
+                  type: string
+                  example: "This is a review for test."
+                  description: 리뷰 내용 (선택 사항)
+      responses:
+        "200":
+          description: 리뷰 작성 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "리뷰를 성공적으로 작성했습니다."
+                  data:
+                    type: object
+                    properties:
+                      review_id:
+                        type: string
+                        example: "3"
+                      user_id:
+                        type: string
+                        example: "1"
+                      user_activity_id:
+                        type: string
+                        example: "1"
+                      activity_id:
+                        type: string
+                        example: "1"
+                      rate:
+                        type: number
+                        example: 4.5
+                      content:
+                        type: string
+                        example: "This is a review for test."
+                      created_at:
+                        type: string
+                        format: date-time
+                        example: "2025-03-06T07:07:15.000Z"
+                      updated_at:
+                        type: string
+                        format: date-time
+                        example: "2025-03-06T07:07:15.000Z"
+        "400":
+          description: 잘못된 요청 (예: 쿼리 ID 없음)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "id가 쿼리에 필요합니다."
+        "401":
+          description: 인증 실패 (로그인이 필요함)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "사용자 인증 실패"
+        "500":
+          description: 서버 오류
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "서버 내부 오류 발생"

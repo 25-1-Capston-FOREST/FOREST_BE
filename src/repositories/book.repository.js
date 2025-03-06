@@ -5,20 +5,7 @@ export const addUserActivity = async (userId, activityId, activityDate) => {
     const date = new Date(activityDate);  // 예약 날짜를 Date 객체로 변환
     const isoActivityDate = date.toISOString();  // ISO 8601 형식으로 변환
 
-    // 중복된 예약이 있는지 확인
-    const existingBook = await prisma.uSER_ACTIVITY.findFirst({
-        where: {
-            user_id: userId,
-            activity_id: BigInt(activityId),
-        }
-    });
-
-    // 중복 예약이 존재하는 경우
-    if (existingBook) {
-        throw new Error("이미 해당 예약이 존재합니다.");
-    }
-
-    // 중복이 없을 시 예약 추가
+    // 예약 추가
     const result = await prisma.uSER_ACTIVITY.create({
         data: {
             user_id: userId,
