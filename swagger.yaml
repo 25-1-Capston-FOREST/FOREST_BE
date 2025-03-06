@@ -956,3 +956,82 @@ paths:
                   message:
                     type: string
                     example: "서버 내부 오류 발생"
+  /api/user/reviews:
+    get:
+      summary: "사용자 리뷰 조회"
+      description: "현재 로그인한 사용자가 작성한 리뷰 목록을 조회합니다."
+      tags:
+        - Review
+      security:
+        - BearerAuth: []
+      responses:
+        "200":
+          description: "리뷰를 성공적으로 조회했습니다."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "리뷰를 성공적으로 조회했습니다."
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        review_id:
+                          type: string
+                          example: "4"
+                        user_id:
+                          type: string
+                          example: "1"
+                        user_activity_id:
+                          type: string
+                          example: "1"
+                        activity_id:
+                          type: string
+                          example: "1"
+                        rate:
+                          type: number
+                          example: 4.5
+                        content:
+                          type: string
+                          example: "This is a review for test."
+                        created_at:
+                          type: string
+                          format: date-time
+                          example: "2025-03-06T07:13:56.000Z"
+                        updated_at:
+                          type: string
+                          format: date-time
+                          example: "2025-03-06T07:13:56.000Z"
+        "401":
+          description: "사용자 인증 실패"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "사용자 인증 실패"
+        "500":
+          description: "서버 오류"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+                    example: "서버 내부 오류가 발생했습니다."

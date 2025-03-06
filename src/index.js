@@ -13,7 +13,7 @@ import authenticateJWT from "./jwtMiddleware.js";
 
 import { handleAddBook, handleGetUserActivity, handleModifyDate, handleFinishActivity, handleCancelBook} from "./controllers/book.controller.js";
 import { handleAddWish, handleDeleteWish, handleGetUserWish } from "./controllers/wish.controller.js";
-import { handleAddReview } from "./controllers/review.controller.js";
+import { handleAddReview, handleGetUserReview } from "./controllers/review.controller.js";
 
 dotenv.config();
 
@@ -102,6 +102,7 @@ app.post('/api/wish', authenticateJWT, handleAddWish);
 app.delete('/api/wish', authenticateJWT, handleDeleteWish);
 app.get('/api/user/wishlist', authenticateJWT, handleGetUserWish);
 app.post('/api/review', authenticateJWT, handleAddReview);
+app.get('/api/user/reviews', authenticateJWT, handleGetUserReview);
 
 // 비인증 API
 app.get('/public', (req, res) => {

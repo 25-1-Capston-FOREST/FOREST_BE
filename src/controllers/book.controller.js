@@ -11,7 +11,7 @@ export const handleAddBook = async (req,res,next) => {
         if(!userId){
             return res.status(StatusCodes.UNAUTHORIZED).json({success: false, message: "사용자 인증 실패"});
         }
-        if(!activityId){
+        if(!id){
             return res.status(400).json({message: "acticityId가 필요합니다"});
         }
         if(!activityDate){
