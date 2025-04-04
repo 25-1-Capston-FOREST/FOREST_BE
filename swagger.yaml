@@ -953,7 +953,7 @@ paths:
                   success:
                     type: boolean
                     example: false
-                  message:
+                  message:                                                                                                                  
                     type: string
                     example: "서버 내부 오류 발생"
   /api/user/reviews:
