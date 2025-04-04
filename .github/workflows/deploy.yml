@@ -13,10 +13,11 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v3
 
-    - name: Setup SSH Key
+    - name: Create PEM file
       run: |
-        echo "$EC2_KEY" > key.pem
-        chmod 600 key.pem
+        echo "${{ secrets.EC2_KEY }}" > key.pem
+        chmod 400 key.pem
+
 
     - name: Deploy to EC2
       run: |
