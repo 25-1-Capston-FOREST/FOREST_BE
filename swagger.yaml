@@ -4,8 +4,8 @@ info:
   description: FOREST API 서버 문서
   version: 1.0.0
 servers:
-  - url: http://localhost:3001
-    description: 로컬 서버
+  - url: http://http://3.37.88.112:3001
+    description: 배포된 서버
 paths:
   /api/book:
     post:
