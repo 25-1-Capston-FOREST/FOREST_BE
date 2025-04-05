@@ -25,7 +25,7 @@ export const createMovie = async (activityId, movieData) => {
 };
 
 // MOVIE/ACTIVITY 삭제
-export const deleteMovieAndActivityById = async (movie_id) => {
+export const deleteMovieAndActivity = async (movie_id) => {
     // 먼저, 관련된 Activity도 삭제
     await prisma.aCTIVITY.deleteMany({
       where: { movie_id },  // 해당 movie_id에 연결된 Activity 삭제

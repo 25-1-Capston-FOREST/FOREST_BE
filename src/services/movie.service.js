@@ -86,7 +86,7 @@ export const deleteOldMovies = async () => {
   });
 
   for (const movie of oldMovies) {
-    await deleteMovieAndActivityById(movie.movie_id);
+    await deleteMovieAndActivity(movie.movie_id);
     console.log(`[DEBUG] 오래된 영화 삭제: ${movie.title}`);
   }
 };
