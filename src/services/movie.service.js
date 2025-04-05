@@ -23,7 +23,13 @@ const parseDate = (str) => {
 export const syncMoviesFromKobis = async (targetDate) => {
     try {
       console.log('[크론] 영화 정보 동기화 시작');
-      const today = targetDate || new Date();
+      const today = targetDate
+        ? new Date(targetDate)
+        : (() => {
+            const d = new Date();
+            d.setDate(d.getDate() - 1); // 🔥 하루 전으로
+            return d;
+            })();
       const dateStr =
         today instanceof Date
           ? today.toISOString().slice(0, 10).replace(/-/g, '')
