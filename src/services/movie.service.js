@@ -4,8 +4,7 @@ import {
   findMovieByTitle,
   createActivity,
   createMovie,
-  deleteMovieAndActivityById,
-  deleteMovieAndActivityById,
+  deleteMovieAndActivity,
 } from '../repositories/movie.repository.js';
 import { prisma } from '../db.config.js';
 

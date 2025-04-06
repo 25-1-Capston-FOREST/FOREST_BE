@@ -37,19 +37,19 @@ model EXHIBITION {
 }
 
 model MOVIE {
-  movie_id    BigInt   @id @default(autoincrement())
-  movie_cd  String     @unique
   activity_id BigInt
+  movie_id    BigInt   @id @default(autoincrement())
+  movie_cd    String   @unique
   title       String   @db.VarChar(100)
   image_url   String?  @db.VarChar(2083)
-  open_dt     String   @db.VarChar(8) // 개봉일
-  rank        String     // 실시간 박스오피스 순위
-  audi_acc    String     // 누적 관객수
-  show_tm      String?   // 상영시간
-  genre_nm     String?   // 장르
-  director     String?   // 감독명
-  actors       String?   // 배우 목록 (쉼표로 이어진 문자열)
-  keywords     Json?
+  open_dt     String   @db.VarChar(8)
+  rank        String
+  audi_acc    String
+  show_tm     String?
+  genre_nm    String?
+  director    String?
+  actors      String?
+  keywords    Json?
   created_at  DateTime @default(now()) @db.Timestamp(0)
   updated_at  DateTime @default(now()) @db.Timestamp(0)
   ACTIVITY    ACTIVITY @relation(fields: [activity_id], references: [activity_id], onDelete: Cascade, onUpdate: NoAction, map: "movie_ibfk_1")
@@ -58,18 +58,26 @@ model MOVIE {
 }
 
 model PERFORMANCE {
-  performance_id    BigInt   @id @default(autoincrement())
-  activity_id       BigInt
-  title             String   @db.VarChar(100)
-  image_url         String?  @db.VarChar(2083)
-  performance_genre String?  @db.VarChar(10)
-  start_date        DateTime @db.Date
-  end_date          DateTime @db.Date
-  time              String   @db.VarChar(100)
-  location          String   @db.VarChar(100)
-  created_at        DateTime @default(now()) @db.Timestamp(0)
-  updated_at        DateTime @default(now()) @db.Timestamp(0)
-  ACTIVITY          ACTIVITY @relation(fields: [activity_id], references: [activity_id], onDelete: Cascade, onUpdate: NoAction, map: "PERFORMANCE_ACTIVITY_activity_id_fk")
+  performance_id BigInt   @id @default(autoincrement())
+  activity_id    BigInt
+  performance_cd String   @unique
+  title          String?  @db.VarChar(255)
+  image_url      String?
+  start_date     String?
+  end_date       String?
+  time           String?
+  region         String?
+  location       String?
+  runtime        String?
+  cost           String?
+  cast           String?
+  genre          String?
+  story          String?
+  link           String?
+  status         String?  @db.VarChar(10)
+  created_at     DateTime @default(now()) @db.Timestamp(0)
+  updated_at     DateTime @default(now()) @db.Timestamp(0)
+  ACTIVITY       ACTIVITY @relation(fields: [activity_id], references: [activity_id], onDelete: Cascade, onUpdate: NoAction, map: "PERFORMANCE_ACTIVITY_activity_id_fk")
 
   @@index([activity_id], map: "PERFORMANCE_ACTIVITY_activity_id_fk")
 }
