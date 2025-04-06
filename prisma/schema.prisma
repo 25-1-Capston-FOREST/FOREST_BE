@@ -38,7 +38,7 @@ model EXHIBITION {
 
 model MOVIE {
   activity_id BigInt
-  movie_id    BigInt   @id
+  movie_id    BigInt   @id @default(autoincrement())
   movie_cd    String   @unique
   title       String   @db.VarChar(100)
   image_url   String?  @db.VarChar(2083)
