@@ -11,6 +11,7 @@ import cookieParser from "cookie-parser";  // cookie-parser 추가
 import { googleStrategy } from "./auth.config.js";
 import authenticateJWT from "./jwtMiddleware.js";
 import './scheduler/movieScheduler.js';
+import './scheduler/performanceScheduler.js'; // 꼭 import!!
 
 import { handleAddBook, handleGetUserActivity, handleModifyDate, handleFinishActivity, handleCancelBook} from "./controllers/book.controller.js";
 import { handleAddWish, handleDeleteWish, handleGetUserWish } from "./controllers/wish.controller.js";
