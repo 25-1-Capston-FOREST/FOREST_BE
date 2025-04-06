@@ -24,14 +24,23 @@ export const createMovie = async (activityId, movieData) => {
   });
 };
 
-// MOVIE/ACTIVITY 삭제
 export const deleteMovieAndActivity = async (movie_id) => {
-    // 먼저, 관련된 Activity도 삭제
-    await prisma.aCTIVITY.deleteMany({
-      where: { movie_id },  // 해당 movie_id에 연결된 Activity 삭제
-    });
-  
-    // 그런 다음, 영화 삭제
-    return prisma.mOVIE.delete({ where: { movie_id } });
-  };
+  // 1. 영화 먼저 찾기
+  const movie = await prisma.mOVIE.findUnique({
+    where: { movie_id },
+  });
+
+  if (!movie) return;
+
+  // 2. 관련된 ACTIVITY 삭제 (activity_id 기반)
+  await prisma.aCTIVITY.delete({
+    where: { activity_id: movie.activity_id },
+  });
+
+  // 3. 영화 삭제
+  await prisma.mOVIE.delete({
+    where: { movie_id },
+  });
+};
+
   

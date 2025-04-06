@@ -4,7 +4,7 @@ info:
   description: FOREST API 서버 문서
   version: 1.0.0
 servers:
-  - url: http://http://3.37.88.112:3001
+  - url: 13.124.10.41:3001
     description: 배포된 서버
 paths:
   /api/book:
