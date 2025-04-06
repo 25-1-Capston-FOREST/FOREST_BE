@@ -119,7 +119,7 @@ model REVIEW {
 
 model USER {
   user_id       BigInt          @id @default(autoincrement())
-  google_id     String          @db.VarChar(255)
+  google_id     String          @db.VarChar(255)  @unique
   email         String          @db.VarChar(255)
   name          String          @db.VarChar(10)
   age           Int?
