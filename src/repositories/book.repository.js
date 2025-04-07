@@ -64,17 +64,17 @@ export const listUserActivity = async (userId, status) => {
             let detailedInfo = null;
 
             switch (activity_type) {
-                case "movie":
+                case "MOVIE":
                     detailedInfo = await prisma.mOVIE.findFirst({
                         where: { activity_id }
                     });
                     break;
-                case "performance":
+                case "PERFORMANCE":
                     detailedInfo = await prisma.pERFORMANCE.findFirst({
                         where: { activity_id }
                     });
                     break;
-                case "exhibition":
+                case "EXHIBITION":
                     detailedInfo = await prisma.eXHIBITION.findFirst({
                         where: { activity_id }
                     });
@@ -103,7 +103,7 @@ export const listUserActivity = async (userId, status) => {
                 activity_date: activityDate,
                 detailedInfo, 
                 isWished: wishedActivitySet.has(activity_id), // wish 여부 확인
-                wish_id: wishId.toString()
+                wish_id: wishId ? wishId.toString() : null
             };
         })
     );
