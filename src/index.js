@@ -32,7 +32,7 @@ passport.use(googleStrategy);  // passport가 googleStrategy를 사용하도록 
 
 // CORS 설정
 app.use(cors({
-    origin: 'http://forest-fe.vercel.app', // 프론트엔드 주소
+    origin: 'https://forest-fe.vercel.app', // 프론트엔드 주소
     credentials: true,  // 쿠키를 포함하려면 이 설정이 필요합니다.
 }));
 
