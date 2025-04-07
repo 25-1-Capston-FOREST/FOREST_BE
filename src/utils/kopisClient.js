@@ -5,8 +5,8 @@ dotenv.config();
 const API_KEY = process.env.KOPIS_API_KEY;
 const BASE_URL = 'http://www.kopis.or.kr/openApi/restful';
 
-export const fetchPerformanceIdList = async (startDate, endDate, region, page = 1, rows = 100) => {
-  const url = `${BASE_URL}/pblprfr?service=${API_KEY}&stdate=${startDate}&eddate=${endDate}&signgucode=${region}&cpage=${page}&rows=${rows}`;
+export const fetchPerformanceIdList = async (stdate, eddate, region, page = 1, rows = 100) => {
+  const url = `${BASE_URL}/pblprfr?service=${API_KEY}&stdate=${stdate}&eddate=${eddate}&signgucode=${region}&cpage=${page}&rows=${rows}`;
 
   try {
     const response = await axios.get(url, { headers: { Accept: 'application/xml' } });
