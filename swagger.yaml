@@ -4,7 +4,7 @@ info:
   description: FOREST API 서버 문서
   version: 1.0.0
 servers:
-  - url: 13.124.10.41:3001
+  - url: https://capston-forest.duckdns.org
     description: 배포된 서버
 paths:
   /api/book:
@@ -1035,3 +1035,9 @@ paths:
                   message:
                     type: string
                     example: "서버 내부 오류가 발생했습니다."
+components:
+  securitySchemes:
+    bearerAuth:        # 위에서 사용한 이름과 같아야 해
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
