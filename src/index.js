@@ -11,7 +11,9 @@ import cookieParser from "cookie-parser";  // cookie-parser 추가
 import { googleStrategy } from "./auth.config.js";
 import authenticateJWT from "./jwtMiddleware.js";
 import './scheduler/movieScheduler.js';
-import './scheduler/performanceScheduler.js'; // 꼭 import!!
+import './scheduler/performanceScheduler.js'; 
+import './scheduler/exhibitionScheduler.js';
+
 
 import { handleAddBook, handleGetUserActivity, handleModifyDate, handleFinishActivity, handleCancelBook} from "./controllers/book.controller.js";
 import { handleAddWish, handleDeleteWish, handleGetUserWish } from "./controllers/wish.controller.js";
@@ -58,11 +60,11 @@ app.post("/auth/google", passport.authenticate('google', {
 
     // JWT를 쿠키로 클라이언트에 저장
     res.cookie("jwt", token, {
-        httpOnly: false,     // 개발 중엔 false 가능
-        secure: false,       // 로컬이니까 https 아님!
-        sameSite: "none",    // 🔥 cross-origin 허용하려면 반드시 "none"
+        httpOnly: true,
+        secure: true,
+        sameSite: "none",
         maxAge: 3600000,
-      });
+      });   
       
     console.log("토큰: "+token);
 

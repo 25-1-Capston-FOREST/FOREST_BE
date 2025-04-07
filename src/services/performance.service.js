@@ -23,8 +23,8 @@ const parseKopisXmlToJson = async (xml) => {
 export const updatePerformances = async () => {
   try {
     const today = dayjs();
-    const startDate = today.subtract(1, 'week').format('YYYYMMDD'); 
-    const endDate = today.add(2, 'week').format('YYYYMMDD');
+    const stdate = today.subtract(2, 'week').format('YYYYMMDD'); 
+    const eddate = today.add(3, 'week').format('YYYYMMDD');
     const region = 11;
 
     let currentPage = 1;
@@ -35,7 +35,7 @@ export const updatePerformances = async () => {
 
     // 📥 전체 공연 목록 페이징으로 가져오기
     while (hasMore && currentPage <= MAX_PAGE) {
-      const listResponse = await fetchPerformanceIdList(startDate, endDate, region, currentPage, rows);
+      const listResponse = await fetchPerformanceIdList(stdate, eddate, region, currentPage, rows);
       const jsonList = await parseKopisXmlToJson(listResponse);
       
       let performanceArray = [];
@@ -119,7 +119,7 @@ export const updatePerformances = async () => {
       // 🎭 ACTIVITY 생성
       const activity = await prisma.aCTIVITY.create({
         data: {
-          activity_type: 'Performance',
+          activity_type: 'PERFORMANCE',
         },
       });
 
