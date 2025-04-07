@@ -74,7 +74,7 @@ app.get("/auth/google/callback",
         console.log("✅ 토큰 발급 및 쿠키 저장 완료");
 
         // 프론트엔드로 리다이렉트 (성공 시)
-        res.redirect("https://forest-fe.vercel.app");
+        res.redirect("https://forest-fe.vercel.app/main");
     }
 );
 
