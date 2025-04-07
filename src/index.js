@@ -58,11 +58,12 @@ app.post("/auth/google", passport.authenticate('google', {
 
     // JWT를 쿠키로 클라이언트에 저장
     res.cookie("jwt", token, {
-        httpOnly: true,
-        secure: true, 
-        sameSite: "none",
-        maxAge: 3600000, // 1시간 동안 유효
-    });
+        httpOnly: false,     // 개발 중엔 false 가능
+        secure: false,       // 로컬이니까 https 아님!
+        sameSite: "none",    // 🔥 cross-origin 허용하려면 반드시 "none"
+        maxAge: 3600000,
+      });
+      
     console.log("토큰: "+token);
 
     console.log("쿠키 저장 완료");
