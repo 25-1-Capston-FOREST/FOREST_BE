@@ -88,17 +88,17 @@ export const listUserWish = async (userId) => {
             let detailedInfo = null;
             if (activity_type) {
                 switch (activity_type) {
-                    case "movie":
+                    case "MOVIE":
                         detailedInfo = await prisma.mOVIE.findFirst({
                             where: { activity_id }
                         });
                         break;
-                    case "performance":
+                    case "PERFORMANCE":
                         detailedInfo = await prisma.pERFORMANCE.findFirst({
                             where: { activity_id }
                         });
                         break;
-                    case "exhibition":
+                    case "EXHIBITION":
                         detailedInfo = await prisma.eXHIBITION.findFirst({
                             where: { activity_id }
                         });

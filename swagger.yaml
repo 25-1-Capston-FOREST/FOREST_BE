@@ -352,21 +352,31 @@ paths:
                               nullable: true
                               description: 이미지 URL (없을 수도 있음)
                               example: null
-                            movie_genre:
+                            open_dt:
+                              type: string
+                              description: 개봉일
+                            rank:
+                              type: string
+                              description: 랭킹
+                            audi_acc:
+                              type: string
+                              description: 누적관객수
+                            show_tm:
+                              type: string
+                              description: 러닝타임
+                            genre_nm:
+                              type: string
+                              description: 장르
+                            director:
+                              type: string
+                              description: 감독
+                            actors:
+                              type: string
+                              description: 배우
+                            keywords:
                               type: array
                               items:
                                 type: string
-                              description: 영화 장르 목록
-                              example: ["genre1", "genre2"]
-                            time:
-                              type: string
-                              format: date-time
-                              description: 영화 시작 시간
-                              example: "2025-03-04T19:30:00.000Z"
-                            location:
-                              type: string
-                              description: 영화 상영 장소
-                              example: "test"
                             created_at:
                               type: string
                               format: date-time
@@ -700,124 +710,64 @@ paths:
                           example: "movie"
                         detailedInfo:
                           type: object
-                          description: 활동 상세 정보 (활동 유형에 따라 다름)
-                          oneOf:
-                            - type: object
-                              description: 영화 상세 정보
-                              properties:
-                                movie_id:
-                                  type: string
-                                  example: "1"
-                                activity_id:
-                                  type: string
-                                  example: "1"
-                                title:
-                                  type: string
-                                  example: "testMovie1"
-                                image_url:
-                                  type: string
-                                  nullable: true
-                                movie_genre:
-                                  type: array
-                                  items:
-                                    type: string
-                                  example: ["genre1", "genre2"]
-                                time:
-                                  type: string
-                                  format: date-time
-                                  example: "2025-03-04T19:30:00.000Z"
-                                location:
-                                  type: string
-                                  example: "test"
-                                created_at:
-                                  type: string
-                                  format: date-time
-                                  example: "2025-03-04T14:50:22.000Z"
-                                updated_at:
-                                  type: string
-                                  format: date-time
-                                  example: "2025-03-04T14:50:22.000Z"
-                            - type: object
-                              description: 공연 상세 정보
-                              properties:
-                                performance_id:
-                                  type: string
-                                  example: "1"
-                                activity_id:
-                                  type: string
-                                  example: "2"
-                                title:
-                                  type: string
-                                  example: "testPerformance1"
-                                image_url:
-                                  type: string
-                                  nullable: true
-                                performance_genre:
-                                  type: string
-                                  example: "genre"
-                                start_date:
-                                  type: string
-                                  format: date
-                                  example: "2025-03-10T00:00:00.000Z"
-                                end_date:
-                                  type: string
-                                  format: date
-                                  example: "2025-05-10T00:00:00.000Z"
-                                time:
-                                  type: string
-                                  example: "20:00:00"
-                                location:
-                                  type: string
-                                  example: "test"
-                                created_at:
-                                  type: string
-                                  format: date-time
-                                  example: "2025-03-05T01:03:16.000Z"
-                                updated_at:
-                                  type: string
-                                  format: date-time
-                                  example: "2025-03-05T01:03:16.000Z"
-                            - type: object
-                              description: 전시회 상세 정보
-                              properties:
-                                exhibition_id:
-                                  type: string
-                                  example: "1"
-                                activity_id:
-                                  type: string
-                                  example: "3"
-                                title:
-                                  type: string
-                                  example: "testExhibition"
-                                image_url:
-                                  type: string
-                                  nullable: true
-                                exhibition_genre:
-                                  type: string
-                                  example: "genre"
-                                start_date:
-                                  type: string
-                                  format: date
-                                  example: "2025-03-10T00:00:00.000Z"
-                                end_date:
-                                  type: string
-                                  format: date
-                                  example: "2025-06-10T00:00:00.000Z"
-                                location:
-                                  type: string
-                                  example: "test"
-                                created_at:
-                                  type: string
-                                  format: date-time
-                                  example: "2025-03-05T18:36:22.000Z"
-                                updated_at:
-                                  type: string
-                                  format: date-time
-                                  example: "2025-03-05T18:36:22.000Z"
+                          description: 여가 활동 상세 정보
+                          properties:
+                            movie_id:
+                              type: string
+                              description: 영화 ID
+                              example: "1"
+                            activity_id:
+                              type: string
+                              description: 활동 ID
+                              example: "1"
+                            title:
+                              type: string
+                              description: 영화 제목
+                              example: "testMovie1"
+                            image_url:
+                              type: string
+                              nullable: true
+                              description: 이미지 URL (없을 수도 있음)
+                              example: null
+                            open_dt:
+                              type: string
+                              description: 개봉일
+                            rank:
+                              type: string
+                              description: 랭킹
+                            audi_acc:
+                              type: string
+                              description: 누적관객수
+                            show_tm:
+                              type: string
+                              description: 러닝타임
+                            genre_nm:
+                              type: string
+                              description: 장르
+                            director:
+                              type: string
+                              description: 감독
+                            actors:
+                              type: string
+                              description: 배우
+                            keywords:
+                              type: array
+                              items:
+                                type: string
+                            created_at:
+                              type: string
+                              format: date-time
+                              description: 생성 시간
+                              example: "2025-03-04T14:50:22.000Z"
+                            updated_at:
+                              type: string
+                              format: date-time
+                              description: 수정 시간
+                              example: "2025-03-04T14:50:22.000Z"
                         isWished:
                           type: boolean
-                          description: 찜 여부 (항상 true)
-                          example: true
+                          description: 사용자가 해당 활동을 찜했는지 여부
+                          example: false
         401:
           description: 인증되지 않은 사용자
           content:
