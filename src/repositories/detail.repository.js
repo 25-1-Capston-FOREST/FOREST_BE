@@ -1,7 +1,7 @@
 import { prisma } from "../db.config.js";
 
 // BigInt를 안전하게 문자열로 변환하는 헬퍼 함수
-const convertBigIntToString = (obj) => {
+export const convertBigIntToString = (obj) => {
     if (Array.isArray(obj)) {
       return obj.map(convertBigIntToString);
     } else if (obj && typeof obj === 'object') {
