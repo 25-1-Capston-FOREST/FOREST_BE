@@ -1,12 +1,12 @@
-const { listRecommendation } = require('../services/recommendation.service');
+import { listRecommendation } from '../services/recommendation.service.js';
 
+// 추천 리스트 조회
 export const handleGetRecommendation = async (req, res) => {
   const { userId } = req.query;
 
   if (!userId) {
     return res.status(400).json({ status: 'error', message: 'userId가 필요합니다.' });
   }
-
   try {
     const result = await listRecommendation(userId);
     return res.status(200).json(result);

@@ -1,8 +1,9 @@
 import {
   getActivityById,
   getActivityDetailByType,
-} from '../repositories/recommendation.repository';
+} from '../repositories/recommendation.repository.js';
 
+// 추천 리스트
 export const listRecommendation = async (userId) => {
   // 1. Python 추천 서버 호출
   const response = await axios.post('http://python-server-url/recommendations', {
@@ -19,10 +20,8 @@ export const listRecommendation = async (userId) => {
     };
   }
 
-  // 2. 추천 activity ID에 해당하는 ACTIVITY 조회
   const activities = await getActivityById(recommendations);
 
-  // 3. 상세 정보 병합
   const detailedActivities = await Promise.all(
     activities.map(async (activity) => {
       const detail = await getActivityDetailByType(activity.activity_type, activity.id);

@@ -23,7 +23,7 @@ const convertBigIntToString = (obj) => {
 // 여러 activity ID로 ACTIVITY 정보 조회
 export const getActivityById = async (ids) => {
   const activities = await prisma.aCTIVITY.findMany({
-    where: { id: { in: ids } },
+    where: { activity_id: { in: ids } },
   });
   return (activities);
 };
