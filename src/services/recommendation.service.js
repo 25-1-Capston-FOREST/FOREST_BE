@@ -7,7 +7,7 @@ import {
 // 추천 리스트
 export const listRecommendation = async (userId) => {
   // 추천 알고리즘 서버 호출
-  const response = await axios.post('https://8b63-222-110-177-53.ngrok-free.app/recommendations', {
+  const response = await axios.post('http://3.34.47.209:5000/recommendations', {
     user_id: userId,
   });
   
