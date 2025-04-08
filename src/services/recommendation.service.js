@@ -6,19 +6,10 @@ import {
 
 // 추천 리스트
 export const listRecommendation = async (userId) => {
-  // // 추천 알고리즘 서버 호출
-  // const response = await axios.post('http://python-server-url/recommendations', {
-  //   user_id: userId,
-  // });
-
-  // 추천 알고리즘 응답 Mock 데이터
-  const response = {
-    data: {
-      status: 'success',
-      recommendations: [1n, 2n, 3n], // bigint 형태로도 한 번 실험해보고
-      message: 'Mock 추천입니다.',
-    },
-  };
+  // 추천 알고리즘 서버 호출
+  const response = await axios.post('https://8b63-222-110-177-53.ngrok-free.app/recommendations', {
+    user_id: userId,
+  });
   
   const { status, recommendations, message } = response.data;
 
