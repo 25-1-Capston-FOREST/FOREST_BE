@@ -1078,6 +1078,126 @@ paths:
                   message:
                     type: string
                     example: Internal Server Error
+  /api/recommendation:
+    get:
+      summary: 추천 리스트 조회
+      description: 사용자의 선호도를 기반으로 한 추천 활동 리스트를 조회합니다.
+      tags:
+        - 추천
+      parameters:
+        - in: query
+          name: userId
+          schema:
+            type: string
+          required: true
+          description: 사용자 ID
+      responses:
+        '200':
+          description: 추천 리스트 조회 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: 추천 리스트를 성공적으로 가져왔습니다.
+                  recommendations:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        activity_id:
+                          type: string
+                          example: "1"
+                        activity_type:
+                          type: string
+                          example: MOVIE
+                        created_at:
+                          type: object
+                          example: {}
+                        updated_at:
+                          type: object
+                          example: {}
+                        detail:
+                          type: object
+                          properties:
+                            activity_id:
+                              type: string
+                              example: "1"
+                            movie_id:
+                              type: string
+                              example: "1"
+                            movie_cd:
+                              type: string
+                              example: "20203863"
+                            title:
+                              type: string
+                              example: "승부"
+                            image_url:
+                              type: string
+                              nullable: true
+                              example: null
+                            open_dt:
+                              type: string
+                              example: "20250326"
+                            rank:
+                              type: string
+                              example: "1"
+                            audi_acc:
+                              type: string
+                              example: "1351651"
+                            show_tm:
+                              type: string
+                              example: "114"
+                            genre_nm:
+                              type: string
+                              example: "드라마"
+                            director:
+                              type: string
+                              example: "김형주"
+                            actors:
+                              type: string
+                              example: "이병헌, 유아인, 고창석, 현봉식, 문정희"
+                            keywords:
+                              type: string
+                              nullable: true
+                              example: null
+                            created_at:
+                              type: object
+                              example: {}
+                            updated_at:
+                              type: object
+                              example: {}
+        '400':
+          description: 요청 파라미터 누락
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: userId가 필요합니다.
+        '500':
+          description: 서버 내부 오류
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: 서버 내부 오류가 발생했습니다.
 components:
   securitySchemes:
     bearerAuth:        # 위에서 사용한 이름과 같아야 해
