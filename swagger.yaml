@@ -1084,13 +1084,6 @@ paths:
       description: 사용자의 선호도를 기반으로 한 추천 활동 리스트를 조회합니다.
       tags:
         - Recommendation
-      parameters:
-        - in: query
-          name: userId
-          schema:
-            type: string
-          required: true
-          description: 사용자 ID
       responses:
         '200':
           description: 추천 리스트 조회 성공
