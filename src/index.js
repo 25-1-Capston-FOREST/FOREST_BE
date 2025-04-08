@@ -19,6 +19,8 @@ import './scheduler/exhibitionScheduler.js';
 import { handleAddBook, handleGetUserActivity, handleModifyDate, handleFinishActivity, handleCancelBook } from "./controllers/book.controller.js";
 import { handleAddWish, handleDeleteWish, handleGetUserWish } from "./controllers/wish.controller.js";
 import { handleAddReview, handleGetUserReview } from "./controllers/review.controller.js";
+import { handleGetRecommendation } from "./controllers/recommendation.controller.js";
+import { handleGetActivityDetail } from "./controllers/detail.controller.js";
 
 dotenv.config();
 
@@ -111,8 +113,10 @@ app.patch('/api/user/activity', authenticateJWT, handleFinishActivity);
 app.post('/api/wish', authenticateJWT, handleAddWish);
 app.delete('/api/wish', authenticateJWT, handleDeleteWish);
 app.get('/api/user/wishlist', authenticateJWT, handleGetUserWish);
-app.post('/api/review', authenticateJWT, handleAddReview);
+app.post('/api/review', authenticateJWT, handleAddReview)
 app.get('/api/user/reviews', authenticateJWT, handleGetUserReview);
+app.get('/api/recommendation', authenticateJWT, handleGetRecommendation);
+app.get('/api/detail', handleGetActivityDetail);
 
 // 비인증 테스트용 API
 app.get('/public', (req, res) => {
