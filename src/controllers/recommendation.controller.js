@@ -2,7 +2,7 @@ import { listRecommendation } from '../services/recommendation.service.js';
 
 // 추천 리스트 조회
 export const handleGetRecommendation = async (req, res) => {
-  const { userId } = req.query;
+  const  userId  = req.user.id;
 
   if (!userId) {
     return res.status(400).json({ status: 'error', message: 'userId가 필요합니다.' });
