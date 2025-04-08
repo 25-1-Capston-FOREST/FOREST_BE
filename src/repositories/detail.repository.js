@@ -28,8 +28,8 @@ export const getActivityById = async (activityId) => {
   return activity;
 };
 
-// 활동 타입에 따라 각 상세 테이블에서 정보 조회
-export const getActivityDetailById = async (type, activityId) => {
+// 활동 타입에 따라 각 상세 테이블에서 정보 조회 + isWished 여부 추가
+export const getActivityDetailById = async (type, activityId, userId) => {
   let detail = null;
 
   switch (type) {
@@ -44,6 +44,31 @@ export const getActivityDetailById = async (type, activityId) => {
       break;
   }
 
-  return convertBigIntToString(detail);
+  // BigInt -> string 변환
+  detail = convertBigIntToString(detail);
+
+  // isWished 확인 (userId가 있는 경우만)
+  let isWished = false;
+  let wishId = null;
+
+  if (userId) {
+    const wish = await prisma.wISH.findFirst({
+      where: {
+        user_id: userId,
+        activity_id: BigInt(activityId)
+      }
+    });
+
+    if (wish) {
+      isWished = true;
+      wishId = wish.wish_id.toString();
+    }
+  }
+
+  return {
+    ...detail,
+    isWished,
+    wish_id: wishId
+  };
 };
 

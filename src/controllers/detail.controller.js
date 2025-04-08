@@ -5,12 +5,13 @@ import { getActivityDetail } from "../services/detail.service.js";
 export const handleGetActivityDetail = async(req, res, next) => {
     try{
         const { id } = req.query; // id: activity_id
+        const userId = req.user.id;
 
         if(!id){
             return res.status(400).json({message: "activity id가 필요합니다"});
         }
 
-        const result = await getActivityDetail(id);
+        const result = await getActivityDetail(id, userId);
         if(!result){
             throw new Error();
         }

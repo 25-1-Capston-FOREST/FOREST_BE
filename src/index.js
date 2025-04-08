@@ -116,7 +116,7 @@ app.get('/api/user/wishlist', authenticateJWT, handleGetUserWish);
 app.post('/api/review', authenticateJWT, handleAddReview)
 app.get('/api/user/reviews', authenticateJWT, handleGetUserReview);
 app.get('/api/recommendation', authenticateJWT, handleGetRecommendation);
-app.get('/api/detail', handleGetActivityDetail);
+app.get('/api/detail', authenticateJWT, handleGetActivityDetail);
 
 // 비인증 테스트용 API
 app.get('/public', (req, res) => {
