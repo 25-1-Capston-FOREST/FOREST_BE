@@ -50,7 +50,7 @@ export async function syncExhibitions(from, to) {
             price: detail.price || '',
             contents: detail.contents1 || '',
             url: detail.url || '',
-            image_url: detail.imageUrl || ''
+            image_url: detail.imgUrl || ''
           };
 
           await createExhibition(exhibitionData);
