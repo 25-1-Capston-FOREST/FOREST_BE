@@ -34,13 +34,13 @@ export const getActivityDetailByType = async (type, activityId) => {
 
   switch (type) {
     case 'MOVIE':
-      detail = await prisma.mOVIE.findUnique({ where: { activity_id: activityId } });
+      detail = await prisma.mOVIE.findFirst({ where: { activity_id: activityId } });
       break;
     case 'PERFORMANCE':
-      detail = await prisma.pERFORMANCE.findUnique({ where: { activity_id: activityId } });
+      detail = await prisma.pERFORMANCE.findFirst({ where: { activity_id: activityId } });
       break;
     case 'EXHIBITION':
-      detail = await prisma.eXHIBITION.findUnique({ where: { activity_id: activityId } });
+      detail = await prisma.eXHIBITION.findFirst({ where: { activity_id: activityId } });
       break;
   }
 
