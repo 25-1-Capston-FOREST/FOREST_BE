@@ -8,7 +8,7 @@ import {
 // 추천 리스트
 export const listRecommendation = async (userId) => {
   // 추천 알고리즘 서버 호출
-  const response = await axios.post('http://54.180.101.6:5000/recommendations', {
+  const response = await axios.post('http://52.79.234.238:5000/recommendations', {
     user_id: userId,
   });
   
