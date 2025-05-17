@@ -21,11 +21,12 @@ import { handleAddWish, handleDeleteWish, handleGetUserWish } from "./controller
 import { handleAddReview, handleGetUserReview } from "./controllers/review.controller.js";
 import { handleGetRecommendation } from "./controllers/recommendation.controller.js";
 import { handleGetActivityDetail } from "./controllers/detail.controller.js";
+import { handleChatbotAnswer, handleChatbotSave } from "./controllers/chatbot.controller.js";
 
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
 const swaggerPath = path.join(__dirname, "../swagger.yaml");
@@ -117,7 +118,8 @@ app.post('/api/review', authenticateJWT, handleAddReview)
 app.get('/api/user/reviews', authenticateJWT, handleGetUserReview);
 app.get('/api/recommendation', authenticateJWT, handleGetRecommendation);
 app.get('/api/detail', authenticateJWT, handleGetActivityDetail);
-
+app.post('/api/chatbot/answer', authenticateJWT, handleChatbotAnswer);
+app.post('/api/chatbot/save', authenticateJWT, handleChatbotSave);
 // 비인증 테스트용 API
 app.get('/public', (req, res) => {
     res.json({ message: "This is a public API" });

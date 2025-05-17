@@ -1215,6 +1215,152 @@ paths:
                   message:
                     type: string
                     example: 서버 내부 오류가 발생했습니다.
+  /api/chatbot/answer:
+    post:
+      summary: 챗봇 답변 요청
+      description: 사용자의 메시지를 기반으로 챗봇이 응답을 반환합니다. (현재는 AI 응답 대신 임시 응답을 사용 중입니다)
+      tags:
+        - Chatbot
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - user_id
+                - message
+              properties:
+                user_id:
+                  type: string
+                  description: 사용자 ID
+                  example: "1"
+                question_id:
+                  type: string
+                  description: 질문 ID (선택 사항)
+                  example: "1"
+                message:
+                  type: string
+                  description: 사용자 메시지
+                  example: 사용자 메시지
+      responses:
+        '200':
+          description: 챗봇 응답 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  reply:
+                    type: string
+                    example: AI 응답 예시: "사용자 메시지"에 대한 답변입니다.
+        '400':
+          description: 필수 항목 누락
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: user_id와 message는 필수입니다.
+        '500':
+          description: 서버 오류 (AI 서버 통신 실패 등)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: AI 서버 통신 오류
+  /api/chatbot/save:
+    post:
+      summary: 챗봇 대화 저장
+      description: 챗봇과의 대화 종료 시 마지막 메시지를 저장합니다. (현재는 실제 저장 없이 콘솔에 출력만 합니다)
+      tags:
+        - Chatbot
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - user_id
+                - question_id
+                - message
+                - end_reason
+              properties:
+                user_id:
+                  type: string
+                  description: 사용자 ID
+                  example: "1"
+                question_id:
+                  type: string
+                  description: 질문 ID
+                  example: "1"
+                message:
+                  type: string
+                  description: 마지막 사용자 메시지
+                  example: 사용자 메시지
+                end_reason:
+                  type: string
+                  description: 대화 종료 이유
+                  example: 종료 이유
+      responses:
+        '200':
+          description: 저장 성공 (mock 응답)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: 마지막 응답 저장 성공 (mock)
+        '400':
+          description: 필수 항목 누락 시 에러
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: 필수 항목 누락
+        '500':
+          description: 서버 내부 오류 (AI 서버 저장 실패 등)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: AI 서버 저장 실패
 components:
   securitySchemes:
     bearerAuth:        # 위에서 사용한 이름과 같아야 해
