@@ -5,4 +5,5 @@ import { updatePerformances } from '../services/performance.service.js';
 cron.schedule('00 03 * * *', async () => {
   console.log('🌙 [공연 정보 스케줄러] 공연 정보를 업데이트합니다...');
   await updatePerformances();
+
 });
