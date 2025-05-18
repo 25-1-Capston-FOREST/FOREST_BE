@@ -26,8 +26,13 @@ export const listRecommendation = async (userId) => {
   const activities = await getActivityById(recommendations);
 
   // 순서를 추천 결과 순서에 맞게 정렬
-const activityMap = new Map(activities.map((a) => [a.activity_id, a]));
-const orderedActivities = recommendations.map((id) => activityMap.get(id));
+  const activityMap = new Map(
+    activities.map((a) => [a.activity_id.toString(), a]) // 👈 BigInt → string
+  );
+  
+  const orderedActivities = recommendations
+    .map((id) => activityMap.get(id.toString())) // 👈 동일하게 string으로 변환
+    .filter((activity) => activity !== undefined);
 
   const detailedActivities = await Promise.all(
     orderedActivities.map(async (activity) => {
