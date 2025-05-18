@@ -27,7 +27,8 @@ export const handleChatbotAnswer = async (req, res) => {
 };
 
 export const handleChatbotSave = async (req, res) => {
-  const { user_id, question_id, message, end_reason } = req.body;
+    const user_id=req.user.id;
+  const {question_id, message, end_reason } = req.body;
 
   if (!user_id || !question_id || !message || !end_reason) {
     return res.status(400).json({ status: 'error', message: '필수 항목 누락' });
