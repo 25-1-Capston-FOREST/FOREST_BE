@@ -28,18 +28,14 @@ export const handleChatbotAnswer = async (req, res) => {
 
 export const handleChatbotSave = async (req, res) => {
     const user_id=req.user.id;
-  const {question_id, message, end_reason } = req.body;
 
-  if (!user_id || !question_id || !message || !end_reason) {
-    return res.status(400).json({ status: 'error', message: '필수 항목 누락' });
-  }
+    if (!user_id) {
+      return res.status(400).json({ status: 'error', message: 'userId가 필요합니다.' });
+    }
 
   try {
     await axios.post(`${AI_SERVER_URL}/chatbot/save`, {
       user_id,
-      question_id,
-      message,
-      end_reason,
     });
 
     return res.status(200).json({ status: 'success', message: '마지막 응답 저장 성공' });
