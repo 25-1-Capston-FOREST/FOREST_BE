@@ -1,36 +1,45 @@
 import { prisma } from '../db.config.js';
+import dayjs from 'dayjs';
 
-// 🎯 공연완료된 항목과 관련된 ACTIVITY 같이 삭제
 export const deleteEndedPerformancesWithActivity = async () => {
+  const today = dayjs();
+
   const endedPerformances = await prisma.pERFORMANCE.findMany({
-    where: {
-      status: '공연완료',
-    },
     select: {
       performance_id: true,
       activity_id: true,
+      end_date: true,
     },
   });
 
-  if (!endedPerformances.length) return;
+  const targets = endedPerformances.filter((p) => {
+    if (!p.end_date) return false;
 
-  const performanceIds = endedPerformances.map(p => p.performance_id);
-  const activityIds = endedPerformances.map(p => p.activity_id);
+    const endDateParsed = dayjs(p.end_date, ['YYYY-MM-DD', 'YYYY.MM.DD']);
+    return endDateParsed.isValid() && endDateParsed.isBefore(today, 'day');
+  });
 
-  // PERFORMANCE 먼저 삭제
+  if (!targets.length) return;
+
+  const performanceIds = targets.map(p => p.performance_id);
+  const activityIds = targets.map(p => p.activity_id);
+
   await prisma.pERFORMANCE.deleteMany({
     where: {
       performance_id: { in: performanceIds },
     },
   });
 
-  // ACTIVITY 삭제
   await prisma.aCTIVITY.deleteMany({
     where: {
       activity_id: { in: activityIds },
     },
   });
+
+  console.log(`🗑️ 종료일 경과된 공연 ${performanceIds.length}개 및 관련 ACTIVITY 삭제 완료`);
 };
+
+
 
 export const saveActivities = async (activities) => {
   if (!activities.length) return;

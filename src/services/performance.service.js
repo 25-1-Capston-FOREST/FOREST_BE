@@ -33,6 +33,10 @@ export const updatePerformances = async () => {
     let hasMore = true;
     let allPerformances = [];
 
+        // ✅ 공연완료 + ACTIVITY 삭제
+        await deleteEndedPerformancesWithActivity();
+        console.log("끝난 공연 삭제완료!");
+
     // 📥 전체 공연 목록 페이징으로 가져오기
     while (hasMore && currentPage <= MAX_PAGE) {
       const listResponse = await fetchPerformanceIdList(stdate, eddate, region, currentPage, rows);
@@ -57,8 +61,6 @@ export const updatePerformances = async () => {
 
     console.log(`🎫 총 ${allPerformances.length}개의 공연 데이터 수집 완료`);
 
-    // ✅ 공연완료 + ACTIVITY 삭제
-    await deleteEndedPerformancesWithActivity();
 
     let savedCount = 0;
 

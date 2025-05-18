@@ -1230,13 +1230,8 @@ paths:
             schema:
               type: object
               required:
-                - user_id
                 - message
               properties:
-                user_id:
-                  type: string
-                  description: 사용자 ID
-                  example: "1"
                 question_id:
                   type: string
                   description: 질문 ID (선택 사항)
@@ -1300,15 +1295,10 @@ paths:
             schema:
               type: object
               required:
-                - user_id
                 - question_id
                 - message
                 - end_reason
               properties:
-                user_id:
-                  type: string
-                  description: 사용자 ID
-                  example: "1"
                 question_id:
                   type: string
                   description: 질문 ID
