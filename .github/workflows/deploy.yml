@@ -25,5 +25,5 @@ jobs:
           cd ~/FOREST_BE
           git pull origin main
           npm install
-          pm2 restart all || node src/index.js &
+          pm2 restart forest-be || node src/index.js &
         EOF

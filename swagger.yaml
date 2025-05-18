@@ -1288,29 +1288,6 @@ paths:
         - Chatbot
       security:
         - bearerAuth: []
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - question_id
-                - message
-                - end_reason
-              properties:
-                question_id:
-                  type: string
-                  description: 질문 ID
-                  example: "1"
-                message:
-                  type: string
-                  description: 마지막 사용자 메시지
-                  example: 사용자 메시지
-                end_reason:
-                  type: string
-                  description: 대화 종료 이유
-                  example: 종료 이유
       responses:
         '200':
           description: 저장 성공 (mock 응답)
