@@ -4,7 +4,8 @@ import axios from 'axios';
 const AI_SERVER_URL = 'http://43.200.176.224:5000 ';
 
 export const handleChatbotAnswer = async (req, res) => {
-  const { user_id, question_id, message } = req.body;
+    const user_id=req.user.id;
+  const { question_id, message } = req.body;
 
   if (!user_id || !message) {
     return res.status(400).json({ status: 'error', message: 'user_id와 message는 필수입니다.' });
