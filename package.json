@@ -9,7 +9,7 @@
     "dev": "nodemon -e js,json,prisma --exec \"prisma generate && node src/index.js\""
   },
   "dependencies": {
-    "@prisma/client": "^6.3.1",
+    "@prisma/client": "^6.8.2",
     "@quixo3/prisma-session-store": "^3.1.13",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
