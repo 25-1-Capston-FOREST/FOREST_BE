@@ -3,7 +3,9 @@ name: Deploy to EC2
 on:
   push:
     branches:
-      - main   # main 브랜치에 push되면만 실행됨 (dev → main 머지 포함)
+      - main       # main 브랜치에 push되면만 실행됨 (dev → main 머지 포함)
+  workflow_dispatch:  # 수동 실행 허용
+
 
 jobs:
   deploy:
