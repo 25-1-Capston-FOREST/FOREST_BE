@@ -22,6 +22,7 @@ import { handleAddReview, handleGetUserReview } from "./controllers/review.contr
 import { handleGetRecommendation } from "./controllers/recommendation.controller.js";
 import { handleGetActivityDetail } from "./controllers/detail.controller.js";
 import { handleChatbotAnswer, handleChatbotSave } from "./controllers/chatbot.controller.js";
+import { handleSearch } from "./controllers/search.controller.js";
 
 dotenv.config();
 
@@ -120,6 +121,7 @@ app.get('/api/recommendation', authenticateJWT, handleGetRecommendation);
 app.get('/api/detail', authenticateJWT, handleGetActivityDetail);
 app.post('/api/chatbot/answer', authenticateJWT, handleChatbotAnswer);
 app.post('/api/chatbot/save', authenticateJWT, handleChatbotSave);
+app.get('/api/search', authenticateJWT, handleSearch);
 // 비인증 테스트용 API
 app.get('/public', (req, res) => {
     res.json({ message: "This is a public API" });

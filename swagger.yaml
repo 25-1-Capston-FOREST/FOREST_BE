@@ -1328,9 +1328,87 @@ paths:
                   message:
                     type: string
                     example: AI 서버 저장 실패
+  /api/search:
+    get:
+      summary: 여가 활동 통합 검색
+      description: 사용자 인증 후, keyword 쿼리 파라미터로 영화, 공연, 전시를 검색합니다.
+      tags: 
+        - Search
+      parameters:
+        - name: keyword
+          in: query
+          description: 검색할 키워드 (예: "사랑")
+          required: true
+          schema:
+            type: string
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: 검색 결과 반환
+          content:
+            application/json:
+              example:
+                - type: performance
+                  performance_id: "394"
+                  activity_id: "730"
+                  performance_cd: "PF264832"
+                  title: "무대 위 사랑, 뉴욕에서 온 두 목소리"
+                  image_url: "http://www.kopis.or.kr/upload/pfmPoster/PF_PF264832_250514_095614.gif"
+                  start_date: "2025.06.03"
+                  end_date: "2025.06.03"
+                  time: "화요일(15:00)"
+                  region: "서울특별시"
+                  location: "영산아트홀 (영산아트홀)"
+                  runtime: "1시간 30분"
+                  cost: "전석 30,000원"
+                  cast: "박율란, 윤우영, 장미"
+                  genre: "서양음악(클래식)"
+                  story: " "
+                  link: "인터파크: http://ticket.interpark.com/Ticket/Goods/GoodsInfo.asp?GoodsCode=25006446"
+                  status: "공연예정"
+                  keywords: null
+                  created_at: {}
+                  updated_at: {}
+                - type: performance
+                  performance_id: "740"
+                  activity_id: "1077"
+                  performance_cd: "PF265013"
+                  title: "내사랑 은경씨 [대학로]"
+                  image_url: "http://www.kopis.or.kr/upload/pfmPoster/PF_PF265013_250516_110319.gif"
+                  start_date: "2025.06.05"
+                  end_date: "2025.06.29"
+                  time: "화요일 ~ 금요일(19:30), 토요일(14:00,17:00), 일요일(14:00), HOL(14:00)"
+                  region: "서울특별시"
+                  location: "상명아트홀 (2관)"
+                  runtime: "1시간 40분"
+                  cost: "전석 50,000원"
+                  cast: "곽영신, 김현중, 조영임, 홍세령, 최성애, 김아름, 이윤성 등"
+                  genre: "연극"
+                  story: " "
+                  link: "인터파크: http://ticket.interpark.com/Ticket/Goods/GoodsInfo.asp?GoodsCode=25006796"
+                  status: "공연예정"
+                  keywords: null
+                  created_at: {}
+                  updated_at: {}
+        '400':
+          description: userId 누락 또는 keyword 누락 오류
+          content:
+            application/json:
+              example:
+                status: error
+                message: "userId가 필요합니다."
+        '500':
+          description: 서버 내부 오류
+          content:
+            application/json:
+              example:
+                status: error
+                message: "서버 내부 오류가 발생했습니다."
 components:
   securitySchemes:
     bearerAuth:        # 위에서 사용한 이름과 같아야 해
       type: http
       scheme: bearer
       bearerFormat: JWT
+
