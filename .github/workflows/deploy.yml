@@ -31,8 +31,14 @@ jobs:
     - name: Deploy to EC2
       run: |
         ssh -o StrictHostKeyChecking=no -i key.pem ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} << 'EOF'
+          set -e
           cd ~/FOREST_BE
-          git pull origin main
+          echo "📦 Pulling latest code"
+          git fetch origin main
+          git reset --hard origin/main
+          echo "📦 Installing dependencies"
           npm install
-          pm2 restart forest-be || node src/index.js &
+          echo "🚀 Restarting with fresh PM2"
+          pm2 delete forest-be || true
+          pm2 start src/index.js --name forest-be
         EOF
