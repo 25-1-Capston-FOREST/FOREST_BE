@@ -22,7 +22,7 @@ import { handleAddBook, handleGetUserActivity, handleModifyDate, handleFinishAct
 import { handleAddWish, handleDeleteWish, handleGetUserWish } from "./controllers/wish.controller.js";
 import { handleAddReview, handleGetUserReview } from "./controllers/review.controller.js";
 import { handleGetRecommendation } from "./controllers/recommendation.controller.js";
-import { handleGetActivityDetail } from "./controllers/detail.controller.js";
+import { handleGetActivityDetail, handleGetActivityReview } from "./controllers/detail.controller.js";
 import { handleChatbotAnswer, handleChatbotSave } from "./controllers/chatbot.controller.js";
 import { handleSearch } from "./controllers/search.controller.js";
 
@@ -124,6 +124,7 @@ app.get('/api/detail', authenticateJWT, handleGetActivityDetail);
 app.post('/api/chatbot/answer', authenticateJWT, handleChatbotAnswer);
 app.post('/api/chatbot/save', authenticateJWT, handleChatbotSave);
 app.get('/api/search', authenticateJWT, handleSearch);
+app.get('/api/detail/reviews', authenticateJWT, handleGetActivityReview);
 // 비인증 테스트용 API
 app.get('/public', (req, res) => {
     res.json({ message: "This is a public API" });

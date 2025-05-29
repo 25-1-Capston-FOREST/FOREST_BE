@@ -78,3 +78,7 @@ export const getActivityDetailById = async (type, activityId, userId) => {
   };
 };
 
+export const getActivityReviewById = async(id) => {
+  const result = await prisma.rEVIEW.findMany({ where: { activity_id:id }});
+  return result;
+}
