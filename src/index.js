@@ -15,6 +15,8 @@ import authenticateJWT from "./jwtMiddleware.js";
 import './scheduler/movieScheduler.js';
 import './scheduler/performanceScheduler.js'; 
 import './scheduler/exhibitionScheduler.js';
+import './scheduler/locationScheduler.js'; 
+
 
 import { handleAddBook, handleGetUserActivity, handleModifyDate, handleFinishActivity, handleCancelBook } from "./controllers/book.controller.js";
 import { handleAddWish, handleDeleteWish, handleGetUserWish } from "./controllers/wish.controller.js";
