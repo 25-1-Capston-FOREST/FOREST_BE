@@ -35,6 +35,8 @@ model EXHIBITION {
   keywords      Json?
   price         String?  @db.VarChar(100)
   url           String?  @db.VarChar(2083)
+  latitude      Float?   @db.Float
+  longitude     Float?   @db.Float
   ACTIVITY      ACTIVITY @relation(fields: [activity_id], references: [activity_id], onDelete: Cascade, onUpdate: NoAction, map: "exhibition_ibfk_1")
 
   @@index([activity_id], map: "exhibition_ibfk_1")
@@ -82,6 +84,8 @@ model PERFORMANCE {
   keywords       Json?
   created_at     DateTime @default(now()) @db.Timestamp(0)
   updated_at     DateTime @default(now()) @db.Timestamp(0)
+  latitude       Float?   @db.Float
+  longitude      Float?   @db.Float
   ACTIVITY       ACTIVITY @relation(fields: [activity_id], references: [activity_id], onDelete: Cascade, onUpdate: NoAction, map: "PERFORMANCE_ACTIVITY_activity_id_fk")
 
   @@index([activity_id], map: "PERFORMANCE_ACTIVITY_activity_id_fk")
