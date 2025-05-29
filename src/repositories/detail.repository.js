@@ -1,24 +1,30 @@
 import { prisma } from "../db.config.js";
 
-// BigInt를 안전하게 문자열로 변환하는 헬퍼 함수
 export const convertBigIntToString = (obj) => {
-    if (Array.isArray(obj)) {
-      return obj.map(convertBigIntToString);
-    } else if (obj && typeof obj === 'object') {
-      return Object.fromEntries(
-        Object.entries(obj).map(([key, value]) => {
-          if (typeof value === 'bigint') {
-            return [key, value.toString()];
-          } else if (typeof value === 'object') {
-            return [key, convertBigIntToString(value)];
-          } else {
-            return [key, value];
-          }
-        })
-      );
-    }
-    return obj;
-  };
+  if (Array.isArray(obj)) {
+    return obj.map(convertBigIntToString);
+  } else if (obj instanceof Date) {
+    // Date 객체를 "YYYY-MM-DD" 형식으로 변환
+    return obj.toISOString().split('T')[0];
+  } else if (obj && typeof obj === 'object') {
+    return Object.fromEntries(
+      Object.entries(obj).map(([key, value]) => {
+        if (typeof value === 'bigint') {
+          return [key, value.toString()];
+        } else if (value instanceof Date) {
+          return [key, value.toISOString().split('T')[0]];
+        } else if (typeof value === 'object') {
+          return [key, convertBigIntToString(value)];
+        } else {
+          return [key, value];
+        }
+      })
+    );
+  }
+  return obj;
+};
+
+
 
 // activity ID로 ACTIVITY 정보 조회
 export const getActivityById = async (activityId) => {
