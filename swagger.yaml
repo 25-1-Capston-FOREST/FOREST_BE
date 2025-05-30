@@ -1496,64 +1496,64 @@ paths:
                     type: string
                     example: "서버 오류가 발생했습니다."
   /api/detail/location:
-  get:
-    tags:
-      - Detail
-    summary: 여가 활동 위치 정보 조회
-    description: 여가 활동 ID를 통해 해당 활동의 위도와 경도 정보를 조회합니다.
-    parameters:
-      - in: query
-        name: id
-        required: true
-        description: 여가 활동의 ID (activity_id)
-        schema:
-          type: integer
-          example: 23
-    responses:
-      '200':
-        description: "해당 여가의 위치 정보가 조회되었습니다."
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                success:
-                  type: boolean
-                  example: true
-                  description: "요청 성공 여부"
-                message:
-                  type: string
-                  example: "해당 여가의 위치 정보가 조회되었습니다."
-                  description: "응답 메시지"
-                data:
-                  type: object
-                  description: "위치 정보 객체"
-                  properties:
-                    latitude:
-                      type: number
-                      example: 37.55706
-                      description: "위도"
-                    longitude:
-                      type: number
-                      example: 126.9042
-                      description: "경도"
-      '400':
-        description: 잘못된 요청
-        content:
-          application/json:
-            example:
-              success: false
-              message: activity id가 필요합니다
-      '500':
-        description: 서버 내부 오류
-        content:
-          application/json:
-            example:
-              success: false
-              message: 위치 정보 조회 중 서버 오류가 발생했습니다.
-components:
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
+    get:
+      tags:
+        - Detail
+      summary: 여가 활동 위치 정보 조회
+      description: 여가 활동 ID를 통해 해당 활동의 위도와 경도 정보를 조회합니다.
+      parameters:
+        - in: query
+          name: id
+          required: true
+          description: 여가 활동의 ID (activity_id)
+          schema:
+            type: integer
+            example: 23
+      responses:
+        '200':
+          description: "해당 여가의 위치 정보가 조회되었습니다."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                    description: "요청 성공 여부"
+                  message:
+                    type: string
+                    example: "해당 여가의 위치 정보가 조회되었습니다."
+                    description: "응답 메시지"
+                  data:
+                    type: object
+                    description: "위치 정보 객체"
+                    properties:
+                      latitude:
+                        type: number
+                        example: 37.55706
+                        description: "위도"
+                      longitude:
+                        type: number
+                        example: 126.9042
+                        description: "경도"
+        '400':
+          description: 잘못된 요청
+          content:
+            application/json:
+              example:
+                success: false
+                message: activity id가 필요합니다
+        '500':
+          description: 서버 내부 오류
+          content:
+            application/json:
+              example:
+                success: false
+                message: 위치 정보 조회 중 서버 오류가 발생했습니다.
+  components:
+    securitySchemes:
+      bearerAuth:
+        type: http
+        scheme: bearer
+        bearerFormat: JWT
