@@ -37,3 +37,29 @@ export const updateItemCoordinates = async (table, id, latitude, longitude) => {
 };
 
 
+export const getLocationById = async(id) => {
+  const typeData = await prisma.aCTIVITY.findFirst({
+    where: { activity_id: id },
+    select: { activity_type: true }
+  })
+
+  const type = typeData?.activity_type; // 문자열만 추출
+
+  if(type === 'MOVIE'){
+    return prisma.mOVIE.findFirst({
+      where: { activity_id: id },
+      select: { latitude: true, longitude:true }
+    })
+  }else if(type === 'PERFORMANCE'){
+    console.log("레포지토리 처리 시작", type);
+    return prisma.pERFORMANCE.findFirst({
+      where: { activity_id: id },
+      select: { latitude: true, longitude:true }
+    })
+  }else{
+    return prisma.eXHIBITION.findFirst({
+      where: { activity_id: id },
+      select: { latitude: true, longitude:true }
+    })
+  }
+}
