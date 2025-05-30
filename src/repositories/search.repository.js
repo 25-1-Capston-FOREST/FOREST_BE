@@ -25,7 +25,7 @@ export const findActivitiesByKeyword = async (keyword) => {
     throw new Error("keyword query parameter is required.");
   }
 
-  const [movies, performances, exhibitions] = await Promise.all([
+  const [MOVIE, PERFORMANCE, EXHIBITION] = await Promise.all([
     prisma.mOVIE.findMany({
       where: { title: { contains: keyword} },
     }),
@@ -38,9 +38,9 @@ export const findActivitiesByKeyword = async (keyword) => {
   ]);
 
   const combined = [
-    ...movies.map((item) => ({ type: "movie", ...item })),
-    ...performances.map((item) => ({ type: "performance", ...item })),
-    ...exhibitions.map((item) => ({ type: "exhibition", ...item })),
+    ...MOVIE.map((item) => ({ type: "MOVIE", ...item })),
+    ...PERFORMANCE.map((item) => ({ type: "PERFORMANCE", ...item })),
+    ...EXHIBITION.map((item) => ({ type: "EXHIBITION", ...item })),
   ];
 
   return convertBigIntToString(combined);
