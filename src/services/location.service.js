@@ -1,6 +1,6 @@
 import axios from 'axios';
 import dotenv from 'dotenv';
-import { updateItemCoordinates, getItemsWithoutCoordinates } from '../repositories/location.repository.js';
+import { updateItemCoordinates, getItemsWithoutCoordinates, getLocationById } from '../repositories/location.repository.js';
 dotenv.config();
 
 const KAKAO_API_KEY = process.env.KAKAO_API_KEY;
@@ -81,3 +81,8 @@ export const updateAllCoordinates = async () => {
 
   console.log('✅ 좌표 업데이트 스케줄러 완료');
 };
+
+export const getLocation = async (id) => {
+  const result = await getLocationById(id);
+  return result;
+}
