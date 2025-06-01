@@ -935,30 +935,111 @@ paths:
                       properties:
                         review_id:
                           type: string
-                          example: "4"
-                        user_id:
-                          type: string
                           example: "1"
                         user_activity_id:
+                          type: string
+                          example: "21"
+                        user_id:
                           type: string
                           example: "1"
                         activity_id:
                           type: string
-                          example: "1"
-                        rate:
-                          type: number
-                          example: 4.5
+                          example: "23"
                         content:
                           type: string
                           example: "This is a review for test."
                         created_at:
                           type: string
                           format: date-time
-                          example: "2025-03-06T07:13:56.000Z"
+                          example: "2025-05-29T08:31:41.000Z"
                         updated_at:
                           type: string
                           format: date-time
-                          example: "2025-03-06T07:13:56.000Z"
+                          example: "2025-05-29T08:31:41.000Z"
+                        activity_type:
+                          type: string
+                          example: "PERFORMANCE"
+                        detailedInfo:
+                          type: object
+                          properties:
+                            performance_id:
+                              type: string
+                              example: "13"
+                            activity_id:
+                              type: string
+                              example: "23"
+                            performance_cd:
+                              type: string
+                              example: "PF262537"
+                            title:
+                              type: string
+                              example: "1920, 랩소디 인 클래식"
+                            image_url:
+                              type: string
+                              format: uri
+                              example: "http://www.kopis.or.kr/upload/pfmPoster/PF_PF262537_250407_132146.jpg"
+                            start_date:
+                              type: string
+                              example: "2025.04.25"
+                            end_date:
+                              type: string
+                              example: "2025.06.27"
+                            time:
+                              type: string
+                              example: "금요일(19:30)"
+                            region:
+                              type: string
+                              example: "서울특별시"
+                            location:
+                              type: string
+                              example: "콘서트홀 나누 (콘서트홀 나누)"
+                            runtime:
+                              type: string
+                              example: "2시간"
+                            cost:
+                              type: string
+                              example: "전석 65,000원"
+                            cast:
+                              type: string
+                              example: "황영지, 김욱 , 조용현"
+                            genre:
+                              type: string
+                              example: "서양음악(클래식)"
+                            story:
+                              type: string
+                              example: " "
+                            link:
+                              type: string
+                              example: "네이버N예약: https://booking.naver.com/booking/12/bizes/1269745"
+                            status:
+                              type: string
+                              example: "공연예정"
+                            keywords:
+                              type: array
+                              items:
+                                type: string
+                              example:
+                                - "랩소디"
+                                - "클래식 음악"
+                                - "1920년대 감성"
+                            created_at:
+                              type: string
+                              format: date-time
+                              example: "2025-04-07T09:25:10.000Z"
+                            updated_at:
+                              type: string
+                              format: date-time
+                              example: "2025-04-07T09:25:10.000Z"
+                            latitude:
+                              type: number
+                              format: float
+                              nullable: true
+                              example: 37.55706
+                            longitude:
+                              type: number
+                              format: float
+                              nullable: true
+                              example: 126.9042
         "401":
           description: "사용자 인증 실패"
           content:
@@ -1511,17 +1592,34 @@ paths:
             example: 23
       responses:
         '200':
-          description: 위치 정보가 성공적으로 조회됨
+          description: "해당 여가의 위치 정보가 조회되었습니다."
           content:
             application/json:
-              example:
-                success: true
-                message: 해당 여가의 위치 정보가 조회되었습니다.
-                data:
-                  latitude: 37.55706
-                  longitude: 126.9042
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                    description: "요청 성공 여부"
+                  message:
+                    type: string
+                    example: "해당 여가의 위치 정보가 조회되었습니다."
+                    description: "응답 메시지"
+                  data:
+                    type: object
+                    description: "위치 정보 객체"
+                    properties:
+                      latitude:
+                        type: number
+                        example: 37.55706
+                        description: "위도"
+                      longitude:
+                        type: number
+                        example: 126.9042
+                        description: "경도"
         '400':
-          description: 잘못된 요청 (예: activity_id 누락)
+          description: 잘못된 요청
           content:
             application/json:
               example:
@@ -1534,10 +1632,9 @@ paths:
               example:
                 success: false
                 message: 위치 정보 조회 중 서버 오류가 발생했습니다.
-components:
-  securitySchemes:
-    bearerAuth:        # 위에서 사용한 이름과 같아야 해
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-
+  components:
+    securitySchemes:
+      bearerAuth:
+        type: http
+        scheme: bearer
+        bearerFormat: JWT
