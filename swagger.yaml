@@ -948,6 +948,9 @@ paths:
                         content:
                           type: string
                           example: "This is a review for test."
+                        rate:
+                          type: number
+                          example: "4.5"
                         created_at:
                           type: string
                           format: date-time

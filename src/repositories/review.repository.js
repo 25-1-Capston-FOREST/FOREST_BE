@@ -99,7 +99,7 @@ export const listUserReview = async (userId) => {
             user_id: review.user_id.toString(),
             activity_id: aid,
             content: review.content,
-            score: review.score,
+            rate: review.rate,
             created_at: review.created_at,
             updated_at: review.updated_at,
             activity_type: activityInfo.activity_type || null,
