@@ -1,14 +1,22 @@
 import { prisma } from '../db.config.js';
 
-// BigInt를 안전하게 문자열로 변환하는 헬퍼 함수
 export const convertBigIntToString = (obj) => {
   if (Array.isArray(obj)) {
     return obj.map(convertBigIntToString);
   } else if (obj && typeof obj === 'object') {
+    if (obj instanceof Date) {
+      return obj.toISOString().slice(0, 10).replace(/-/g, '.');
+    }
+
     return Object.fromEntries(
       Object.entries(obj).map(([key, value]) => {
         if (typeof value === 'bigint') {
           return [key, value.toString()];
+        } else if (value instanceof Date) {
+          return [key, value.toISOString().slice(0, 10).replace(/-/g, '.')];
+        } else if (typeof value === 'string' && /^\d{4}-\d{2}-\d{2}T/.test(value)) {
+          // ISO 문자열 처리
+          return [key, value.slice(0, 10).replace(/-/g, '.')];
         } else if (typeof value === 'object') {
           return [key, convertBigIntToString(value)];
         } else {
@@ -19,6 +27,8 @@ export const convertBigIntToString = (obj) => {
   }
   return obj;
 };
+
+
 
 // 여러 activity ID로 ACTIVITY 정보 조회
 export const getActivityById = async (ids) => {
