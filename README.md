@@ -46,8 +46,8 @@ FOREST_BE/
 ## ⚙️ 설치 및 실행 방법
 #### 1. 프로젝트 클론
 ```
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
+git clone https://github.com/25-1-Capston-FOREST/FOREST_BE.git
+cd FOREST_BE
 ```
 
 #### 2. 패키지 설치
