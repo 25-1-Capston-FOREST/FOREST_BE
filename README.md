@@ -77,3 +77,10 @@ npx prisma generate
 ```
 npm run start
 ```
+
+
+## 서버 주소
+https://capston-forest.duckdns.org
+
+## 개발자 정보
+https://github.com/dxxrjh
