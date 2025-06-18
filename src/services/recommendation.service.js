@@ -1,4 +1,6 @@
 import axios from 'axios';
+import dotenv from 'dotenv';
+dotenv.config();
 import {
   getActivityById,
   getActivityDetailByType,
@@ -7,6 +9,7 @@ import {
 
 // 추천 리스트
 export const listRecommendation = async (userId) => {
+  console.log(process.env.AI_SERVER_URI);
   // 추천 알고리즘 서버 호출
   const response = await axios.post(`${process.env.AI_SERVER_URI}/recommendations`, {
     user_id: userId,

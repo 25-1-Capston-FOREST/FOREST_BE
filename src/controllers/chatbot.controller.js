@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 // chatbot/controller.js
 import axios from 'axios';
 
