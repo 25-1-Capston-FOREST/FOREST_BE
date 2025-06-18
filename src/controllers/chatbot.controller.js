@@ -1,7 +1,7 @@
 // chatbot/controller.js
 import axios from 'axios';
 
-const AI_SERVER_URL = 'http://43.203.239.85:5000';
+const AI_SERVER_URL = process.env.AI_SERVER_URI;
 
 export const handleChatbotAnswer = async (req, res) => {
     const user_id=req.user.id;
