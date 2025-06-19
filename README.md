@@ -46,6 +46,28 @@ FOREST_BE/
 └── ...
 ```
 
+## API 목록
+| 영역  | 기술                            |
+| --- | ----------------------------- |
+| 여가 추천 리스트  | ```GET``` api/recommendation             |
+| 검색  | ```GET``` api/search           |
+| 여가 상세 조회 | ```GET``` api/detail                     |
+| 예약 추가  | ```POST``` api/book?id=  |
+| 예약 변경  | ```PATCH``` api/book?id=                        |
+| 예약 취소  | ```DELETE``` api/book?id= |
+| 내 여가 조회  | ```GET``` api/user/activities?status= |
+| 여가 완료 처리  | ```POST``` api/user/activity?id= |
+| 찜하기  | ```POST``` api/wish?id=|
+| 찜 목록 조회 | ```GET``` api/user/wishlist |
+| 찜 해제  | ```DELETE``` api/wish?id=|
+| 리뷰 작성 | ```POST``` api/review?id=|
+| 사용자 리뷰 목록 조회 | ```GET``` api/user/reviews|
+| 리뷰 작성 | ```POST``` api/review?id=|
+| 여가 리뷰 조회 | ```GET``` api/reviews?id=|
+...
+
+
+
 ## ⚙️ 설치 및 실행 방법
 #### 1. 프로젝트 클론
 ```
@@ -59,13 +81,13 @@ npm install
 ```
 #### 3. 환경변수 설정
 ```
-DB_HOST=db-forest.ch44iq6y0ulb.ap-northeast-2.rds.amazonaws.com
+DB_HOST="RDS 배포 주소"
 PORT=3001
 GOOGLE_CLIENT_ID="구글 클라우드 콘솔에서 발급 후 삽입"
 GOOGLE_CLIENT_SECRET="구글 클라우드 콘솔에서 발급 후 삽입"
 JWT_SECRET="JWT 토큰 지정 후 삽입"
 GOOGLE_REDIRECT_URI="http://localhost:3000/auth/google/callback"
-DATABASE_URL="mysql://admin:comthreeinthehouse@db-forest.ch44iq6y0ulb.ap-northeast-2.rds.amazonaws.com:3306/DB_FOREST"
+DATABASE_URL="배포된 DB URL"
 KOBIS_API_KEY="267c3346743815442f2129abc1ba2f12"
 KOPIS_API_KEY=b47a469166554c1591deee9ecf13dacb
 ```
